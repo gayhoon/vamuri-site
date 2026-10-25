@@ -4,369 +4,552 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>vamuri — 바이브코딩으로 만든 서비스, 출시까지</title>
-  <meta name="description" content="결제·인증·법규·배포 — AI 로 만든 웹서비스가 코드 바깥에서 막히는 것을 출시 전에 79항목으로 진단하고 같이 끝냅니다. 지금은 무료 기간.">
+  <meta name="description" content="결제·인증·법규·배포 — 바이브코딩으로 만든 웹서비스가 코드 바깥에서 막히는 것을 출시 전에 79항목으로 찾아 같이 끝냅니다. GitHub 로그인 한 번, 저장소 주소 하나. 지금은 무료 기간.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://gayhoon.github.io/vamuri-site/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="vamuri">
   <meta property="og:title" content="코드는 다 짰는데, 출시가 안 됩니다 — vamuri">
-  <meta property="og:description" content="결제사 심사, 카카오 로그인, 약관, 배포, 요금 폭탄 — 코드 바깥의 열 가지를 출시 전에 같이 끝냅니다. 지금은 무료 기간.">
+  <meta property="og:description" content="결제사 심사, 카카오 로그인, 약관, 배포, 요금 폭탄 — 코드 바깥에서 막히는 것을 출시 전에 찾아 같이 끝냅니다. 지금은 무료 기간.">
   <meta property="og:url" content="https://gayhoon.github.io/vamuri-site/">
   <meta property="og:image" content="https://gayhoon.github.io/vamuri-site/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#111111">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#070a17">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/space-grotesk@5/wght.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-mono@5/400.css">
   <style>
-    /* ═══════════ 토큰 — "진단 리포트 그 자체" 라는 개념. 종이·잉크·형광펜 셋뿐 ═══════════ */
+    /* 앱(vamuri.vercel.app)과 같은 토큰 — 다크블루 + 쨍한 퍼플, 각진 평면. 레퍼런스 분석: docs/design-reference-higgsfield-2026-10.md
+       글꼴 셋: 한글 Pretendard · 숫자/영문 라벨 Space Grotesk · 경로/시각 Space Mono. 빛은 예시 화면 뒤 오로라와 마지막 권유 판에만. 화면 이미지는 가상의 예시 저장소로 만든 것(site/README.md). */
     :root {
-      --bone: #f3f1ea;
-      --ink: #111111;
-      --ink-2: #4a4a46;
-      --rule: #111111;
-      --rule-soft: #cfcbbf;
-      --lime: #c8ff3d;          /* 형광펜 */
-      --lime-ink: #111111;
-      --red: #b4320e;           /* 문제 — 종이 위 대비 4.5 이상 */
-      --green: #0b7a4b;         /* 통과 */
-      --max: 1120px;
+      --bg: #070a17; --bg-2: #0b1022; --tile: #111a33; --tile-2: #16213f; --sunk: #0a0f20;
+      --hair: rgba(255,255,255,.06); --hair-2: rgba(255,255,255,.12); --grid: rgba(150,160,255,.06);
+      --fg: #f4f5fb; --fg-2: #a9b0c6; --fg-3: #8a91a8;
+      --accent: #b68cff; --accent-btn: #7c3aed; --accent-hover: #8b4ef7; --accent-edge: #4c1d95; --accent-soft: rgba(124,58,237,.22); --accent-line: rgba(182,140,255,.55);
+      --ok: #4ad295; --ok-soft: rgba(74,210,149,.14); --bad: #ff6b61; --bad-soft: rgba(255,107,97,.14); --warn: #f2b84b; --warn-soft: rgba(242,184,75,.14);
       --sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
-      --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --display: "Space Grotesk Variable", "Space Grotesk", "Pretendard Variable", Pretendard, sans-serif;
+      --mono: "Space Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      --max: 1280px; --ease: cubic-bezier(.4, 0, .2, 1);
     }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) { --bone: #0d0d0c; --ink: #f3f1ea; --ink-2: #b8b5aa; --rule: #f3f1ea; --rule-soft: #3a3934; --red: #ff6b4a; --green: #5fd49a; }
-    }
-    :root[data-theme="dark"] { --bone: #0d0d0c; --ink: #f3f1ea; --ink-2: #b8b5aa; --rule: #f3f1ea; --rule-soft: #3a3934; --red: #ff6b4a; --green: #5fd49a; }
-
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .ticker .track { animation: none !important; } }
-    body { margin: 0; background: var(--bone); color: var(--ink); font-family: var(--sans); line-height: 1.6; word-break: keep-all; -webkit-font-smoothing: antialiased; }
-    a { color: inherit; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
-    a:hover { text-decoration-color: var(--lime); text-decoration-thickness: 3px; }
-    :focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
-    .skip { position: absolute; left: -999px; top: 10px; z-index: 20; background: var(--lime); color: var(--lime-ink); padding: 10px 14px; font-weight: 800; }
-    .skip:focus { left: 16px; }
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
-    @media (max-width: 480px) { .wrap { padding: 0 16px; } }
-    .mono { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.02em; }
-    mark { background: var(--lime); color: var(--lime-ink); padding: 0 .15em; }
+    html { background: var(--bg); scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 16px; line-height: 1.6; word-break: keep-all; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    code, .mono { font-family: var(--mono); }
+    code { font-size: .82em; background: rgba(255,255,255,.06); padding: .1em .35em; color: var(--fg-2); }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+    .skip { position: absolute; left: -999px; top: 8px; z-index: 50; background: var(--accent-btn); color: #fff; padding: 10px 14px; font-weight: 700; }
+    .skip:focus { left: 8px; }
+    [id] { scroll-margin-top: 76px; }
 
-    /* ═══════════ 상단 상태 줄 + 헤더 ═══════════ */
-    .status { border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 0.74rem; letter-spacing: .04em; }
-    .status .wrap { display: flex; justify-content: space-between; gap: 12px; padding-top: 6px; padding-bottom: 6px; }
-    .status .cur::after { content: "▍"; animation: blink 1.1s steps(2, start) infinite; }
-    @keyframes blink { to { visibility: hidden; } }
-    @media (max-width: 640px) { .status .r { display: none; } }
-    .head { position: sticky; top: 0; z-index: 10; background: var(--bone); border-bottom: 1px solid var(--rule); }
-    .head .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 60px; gap: 12px; }
-    .brand { font-weight: 900; font-size: 1.3rem; letter-spacing: -0.04em; text-decoration: none; display: inline-flex; align-items: baseline; gap: 2px; }
-    .brand i { font-style: normal; display: inline-block; width: .55em; height: .55em; background: var(--lime); transform: translateY(-2px); }
-    nav.top ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; align-items: center; }
-    nav.top a { text-decoration: none; font-family: var(--mono); font-size: 0.78rem; letter-spacing: .04em; }
-    nav.top a:hover { text-decoration: underline; text-decoration-color: var(--lime); text-decoration-thickness: 3px; }
-    @media (max-width: 760px) { nav.top ul li:not(.cta) { display: none; } }
+    /* 무료 기간 띠 */
+    .strip { background: var(--accent-btn); color: #fff; font-size: .84rem; }
+    .strip .wrap { display: flex; justify-content: center; align-items: center; gap: 14px; min-height: 36px; text-align: center; flex-wrap: wrap; padding-top: 4px; padding-bottom: 4px; }
+    .strip a { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 
-    /* ═══════════ 버튼 ═══════════ */
-    .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--bone); text-decoration: none; font-weight: 800; padding: 16px 22px; border: 1.5px solid var(--ink); font-size: 1rem; letter-spacing: -0.01em; transition: background .12s ease, color .12s ease; }
-    .btn:hover { background: var(--lime); color: var(--lime-ink); border-color: var(--ink); text-decoration: none; }
-    .btn.lime { background: var(--lime); color: var(--lime-ink); }
-    .btn.lime:hover { background: var(--ink); color: var(--bone); }
-    .btn.line { background: transparent; color: var(--ink); }
-    .btn.line:hover { background: var(--ink); color: var(--bone); }
-    .btn .arr { font-family: var(--mono); }
-    nav.top a.btn { padding: 10px 14px; font-family: var(--sans); font-size: .9rem; letter-spacing: 0; }
+    /* 상단 메뉴 */
+    .topnav { position: sticky; top: 0; z-index: 30; background: rgba(7,10,23,.86); backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid var(--hair); }
+    .topnav .wrap { display: flex; align-items: center; gap: 20px; height: 60px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--fg); font-weight: 700; font-size: 1.05rem; text-decoration: none; flex: none; }
+    .brand:hover { text-decoration: none; }
+    .mark { width: 28px; height: 28px; background: var(--accent-btn); box-shadow: inset 0 -2px 0 var(--accent-edge); color: #fff; display: grid; place-items: center; font-family: var(--display); font-weight: 700; }
+    .menu { display: flex; gap: 2px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+    .menu::-webkit-scrollbar { display: none; }
+    .menu a { color: var(--fg-2); font-size: .92rem; font-weight: 500; padding: 6px 10px; white-space: nowrap; }
+    .menu a:hover { color: var(--fg); text-decoration: none; }
+    .topnav .right { display: flex; gap: 8px; align-items: center; flex: none; }
 
-    /* ═══════════ 섹션 공통: 번호 + 제목 줄 ═══════════ */
-    section { padding: 64px 0; border-top: 1px solid var(--rule); }
-    @media (max-width: 720px) { section { padding: 48px 0; } }
-    .sec-head { display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: start; margin-bottom: 28px; }
-    @media (max-width: 720px) { .sec-head { grid-template-columns: 1fr; gap: 8px; } }
-    .sec-head .idx { font-family: var(--mono); font-size: 0.8rem; letter-spacing: .08em; color: var(--ink-2); padding-top: .5rem; }
-    h1 { font-size: clamp(2.6rem, 8.2vw, 6.4rem); line-height: .98; letter-spacing: -0.045em; margin: 0; font-weight: 900; }
-    h2 { font-size: clamp(1.6rem, 3.6vw, 2.5rem); line-height: 1.12; letter-spacing: -0.035em; margin: 0 0 10px; font-weight: 850; }
-    h3 { font-size: 1.05rem; margin: 0 0 4px; letter-spacing: -0.01em; font-weight: 800; }
-    p { margin: 0 0 12px; }
-    .lead { font-size: 1.12rem; color: var(--ink-2); max-width: 62ch; }
+    /* 버튼 — 키캡(주·흰) · 유령 · 반투명 */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; height: 42px; padding: 0 16px; font-family: var(--sans); font-size: .94rem; font-weight: 600; line-height: 1; color: var(--fg); background: rgba(255,255,255,.05); border: 1px solid var(--hair); box-shadow: inset 0 1.5px 3px rgba(255,255,255,.05); text-decoration: none; transition: background .2s var(--ease), transform .08s var(--ease); }
+    .btn:hover { background: rgba(255,255,255,.09); text-decoration: none; color: var(--fg); }
+    .btn.primary { background: var(--accent-btn); color: #fff; border: 0; box-shadow: inset 0 -3px 0 var(--accent-edge); padding-bottom: 3px; }
+    .btn.primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn.white { background: #fff; color: #111; border: 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,.3); padding-bottom: 3px; }
+    .btn.white:hover { background: #eceef6; color: #111; }
+    .btn.primary:active, .btn.white:active { transform: translateY(2px); }
+    .btn.glass { background: var(--accent-soft); color: var(--accent); border: 2px solid rgba(0,0,0,.12); box-shadow: none; backdrop-filter: blur(8px); height: 44px; }
+    .btn.lg { height: 52px; padding: 0 22px; font-size: 1.02rem; }
+    .btn.sm { height: 34px; padding: 0 12px; font-size: .86rem; }
+    .btn svg { flex: none; }
 
-    /* ═══════════ 히어로 ═══════════ */
-    .hero { border-top: 0; padding: 56px 0 0; }
-    .hero .kicker { font-family: var(--mono); font-size: .78rem; letter-spacing: .08em; color: var(--ink-2); margin-bottom: 18px; display: flex; gap: 14px; flex-wrap: wrap; }
-    .hero .kicker b { color: var(--ink); font-weight: 600; }
-    .hero .sub { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; align-items: end; margin-top: 28px; }
-    @media (max-width: 860px) { .hero .sub { grid-template-columns: 1fr; } }
-    .hero .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
-    @media (max-width: 860px) { .hero .actions { justify-content: flex-start; } }
+    /* 히어로 */
+    .hero { padding: 72px 0 0; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: .84rem; color: var(--fg-2); border: 1px solid var(--hair-2); padding: 6px 12px 6px 10px; margin-bottom: 26px; }
+    .eyebrow i { width: 8px; height: 8px; background: var(--accent); box-shadow: 0 0 0 4px rgba(182,140,255,.18); }
+    h1 { font-family: var(--display); font-weight: 700; font-size: clamp(2.7rem, 7vw, 5.6rem); line-height: 1.02; letter-spacing: -.05em; margin: 0 0 24px; }
+    h1 .n { color: var(--accent); }
+    .lede { font-size: clamp(1.02rem, 1.6vw, 1.22rem); color: var(--fg-2); max-width: 40rem; margin: 0 0 30px; }
+    .lede b { color: var(--fg); font-weight: 600; }
+    .acts { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .micro { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px; font-size: .84rem; color: var(--fg-3); }
+    .micro span::before { content: "✓"; color: var(--ok); margin-right: 6px; font-weight: 700; }
 
-    /* 리포트 원장(ledger) — 히어로 비주얼 */
-    .ledger { margin-top: 44px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: .82rem; }
-    .ledger .lrow { display: grid; grid-template-columns: 64px 72px 1fr 1.1fr; gap: 14px; padding: 12px 0; border-top: 1px solid var(--rule-soft); align-items: start; }
-    .ledger .lrow:first-child { border-top: 0; color: var(--ink-2); font-size: .72rem; letter-spacing: .08em; }
-    .ledger .v { font-weight: 800; }
-    .ledger .v.ok { color: var(--green); }
-    .ledger .v.bad { color: var(--red); }
-    .ledger .t { font-family: var(--sans); font-weight: 650; font-size: .95rem; letter-spacing: -0.01em; }
-    .ledger .e { color: var(--ink-2); word-break: break-all; }
-    @media (max-width: 720px) {
-      .ledger .lrow { grid-template-columns: 52px 1fr; gap: 6px 10px; }
-      .ledger .lrow:first-child { display: none; }
-      .ledger .e { grid-column: 2; }
-      .ledger .n { grid-row: span 2; }
+    /* 빛나는 판 — 마지막 권유 */
+    .banner { position: relative; overflow: hidden; background-color: var(--bg-2); background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 48px 48px; background-position: center; box-shadow: inset 0 0 0 1px var(--accent-line), inset 0 0 140px rgba(124,58,237,.38); padding: 56px 24px 52px; min-height: 400px; display: grid; place-items: center; text-align: center; }
+    .banner .inner { position: relative; z-index: 2; max-width: 640px; }
+    .banner .meta { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 8px 12px; align-items: center; color: var(--fg-3); font-size: .82rem; margin-bottom: 18px; }
+    .banner .display { font-family: var(--display); font-weight: 700; font-size: clamp(2.2rem, 5vw, 4.2rem); line-height: 1; letter-spacing: -.045em; margin: 0 0 14px; color: var(--fg); }
+    .banner .display .n { color: var(--accent); }
+    .banner p { color: var(--fg-2); margin: 0 auto 24px; max-width: 46ch; }
+    .banner .acts { justify-content: center; }
+    .vtag { font-size: .68rem; font-weight: 700; height: 18px; padding: 0 6px; display: inline-flex; align-items: center; white-space: nowrap; }
+    .vtag.x { background: var(--bad-soft); color: var(--bad); } .vtag.h { background: var(--warn-soft); color: var(--warn); } .vtag.o { background: var(--ok-soft); color: var(--ok); }
+
+    /* 이런 서비스들 — 가상의 앱 화면 벽. 화면 폭 전체, 두 줄이 반대로 흐른다. 멈춤 단추(WCAG 2.2.2) · 움직임 줄이기 설정이면 멈춘 채 옆으로 넘김 */
+    .wallbox { margin-top: 64px; }
+    .wall-head { display: flex; justify-content: space-between; align-items: center; gap: 8px 16px; flex-wrap: wrap; font-size: .84rem; color: var(--fg-3); margin-bottom: 14px; }
+    .wall-head .meta { display: inline-flex; align-items: center; gap: 12px; }
+    .wall-stop { position: relative; display: inline-flex; align-items: center; height: 28px; padding: 0 10px; font-size: .78rem; color: var(--fg-2); background: rgba(255,255,255,.05); border: 1px solid var(--hair-2); cursor: pointer; }
+    .wall-stop:hover { background: rgba(255,255,255,.09); }
+    .wall-stop input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+    .wall-stop:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .wall-stop .on, .wall-stop:has(input:checked) .off { display: none; } .wall-stop:has(input:checked) .on { display: inline; }
+    .wall { display: grid; gap: 14px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+    .belt { display: flex; gap: 14px; width: max-content; animation: belt 90s linear infinite; }
+    .row-b .belt { animation-direction: reverse; animation-duration: 105s; }
+    .wall:hover .belt, .wallbox:has(.wall-stop input:checked) .belt { animation-play-state: paused; }
+    @keyframes belt { to { transform: translateX(calc(-50% - 7px)); } }
+    @keyframes belt-y { to { transform: translateY(calc(-50% - 7px)); } }
+    /* 넓은 화면 — 히어로 오른쪽 빈자리에 세로 두 줄(위로·아래로). 글 칸과 겹치지 않게 폭을 계산한다 */
+    @media (min-width: 1280px) {
+      .hero { position: relative; min-height: 720px; padding-bottom: 56px; }
+      .hero > .wrap { position: relative; z-index: 1; }
+      .hero > .wrap > * { max-width: 660px; }
+      .wallbox { position: absolute; z-index: 0; top: 32px; bottom: 0; right: max(24px, calc(50vw - 616px)); width: min(560px, calc(100vw - 740px)); margin: 0; display: flex; flex-direction: column; }
+      .wallbox .wall-head { order: 2; max-width: none; margin: 14px 0 0; padding: 0; font-size: .8rem; }
+      .wall { flex: 1; min-height: 0; grid-template-columns: 1fr 1fr; -webkit-mask-image: linear-gradient(180deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(180deg, transparent, #000 10%, #000 90%, transparent); }
+      .wall .row { overflow: hidden; min-height: 0; }
+      .belt { flex-direction: column; width: auto; animation-name: belt-y; animation-duration: 70s; }
+      .row-b .belt { animation-duration: 82s; }
+      .wall .app { width: 100%; }
     }
-    .ledger-cap { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 10px 0 0; font-family: var(--mono); font-size: .74rem; color: var(--ink-2); letter-spacing: .04em; }
+    .app { position: relative; margin: 0; width: 380px; flex: none; }
+    .app img { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; background: var(--tile); }
+    .app figcaption { position: absolute; left: 10px; bottom: 10px; max-width: calc(100% - 20px); display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: rgba(7,10,23,.86); backdrop-filter: blur(6px); font-size: .76rem; line-height: 1.35; color: var(--fg-2); }
+    .app figcaption b { color: var(--fg); font-weight: 700; white-space: nowrap; }
+    .app figcaption span::before { content: ""; display: inline-block; width: 6px; height: 6px; background: var(--bad); margin-right: 7px; vertical-align: 1px; }
 
-    /* ═══════════ 흐르는 띠(10묶음) ═══════════ */
-    .ticker { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--lime); color: var(--lime-ink); overflow: hidden; margin-top: 56px; }
-    .ticker .track { display: flex; gap: 0; width: max-content; animation: slide 46s linear infinite; }
-    .ticker:hover .track { animation-play-state: paused; }
-    .ticker span { font-family: var(--mono); font-size: .8rem; letter-spacing: .06em; padding: 10px 22px; border-right: 1px solid rgba(0,0,0,.25); white-space: nowrap; }
-    @keyframes slide { to { transform: translateX(-50%); } }
-
-    /* ═══════════ 번호 목록 / 격자 ═══════════ */
-    .cols { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
-    .cols.four { grid-template-columns: repeat(4, 1fr); margin-top: 28px; }
-    @media (max-width: 960px) { .cols, .cols.four { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .cols, .cols.four { grid-template-columns: 1fr; } }
-    .cell { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 18px 16px 20px; }
-    .cell .k { font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; color: var(--ink-2); margin-bottom: 10px; }
-    .cell p { margin: 0; color: var(--ink-2); font-size: .95rem; }
-    .cell.hl { background: var(--ink); color: var(--bone); }
-    .cell.hl .k, .cell.hl p { color: var(--bone); opacity: .85; }
-
-    ol.list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); counter-reset: n; }
-    ol.list li { display: grid; grid-template-columns: 56px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule-soft); align-items: baseline; }
-    ol.list li::before { counter-increment: n; content: counter(n, decimal-leading-zero); font-family: var(--mono); font-size: .85rem; color: var(--ink-2); }
-    ol.list li strong { font-weight: 800; }
-    ol.list li span { color: var(--ink-2); }
-    ol.list.two { columns: 2; column-gap: 40px; border-top: 0; }
-    ol.list.two li { break-inside: avoid; }
-    @media (max-width: 760px) { ol.list.two { columns: 1; } }
-    .callout { border: 1.5px solid var(--ink); padding: 16px 18px; margin-top: 22px; position: relative; }
-    .callout::before { content: "NOTE"; position: absolute; top: -9px; left: 14px; background: var(--bone); padding: 0 6px; font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; }
-
-    /* ═══════════ 사례 ═══════════ */
-    .case { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; align-items: start; }
-    @media (max-width: 860px) { .case { grid-template-columns: 1fr; } }
-    .case .figs { border-top: 1px solid var(--rule); }
-    .case .figs div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--rule-soft); }
-    .case .figs b { font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 900; line-height: 1; }
-    .case .figs span { font-family: var(--mono); font-size: .74rem; letter-spacing: .06em; color: var(--ink-2); text-align: right; }
-
-    /* ═══════════ 가격(원장) ═══════════ */
-    .price { border-top: 1px solid var(--rule); }
-    .price .prow { display: grid; grid-template-columns: 1.1fr 2fr .8fr .9fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--rule-soft); align-items: baseline; }
-    .price .prow.h { font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; color: var(--ink-2); padding: 10px 0; }
-    .price .name { font-weight: 850; font-size: 1.1rem; letter-spacing: -0.02em; }
-    .price .desc { color: var(--ink-2); font-size: .95rem; }
-    .price .num { font-family: var(--mono); font-size: .9rem; white-space: nowrap; }
-    .price .free { font-weight: 900; background: var(--lime); color: var(--lime-ink); padding: 2px 8px; display: inline-block; }
-    @media (max-width: 720px) {
-      .price .prow { grid-template-columns: 1fr 1fr; gap: 6px 12px; }
-      .price .prow.h { display: none; }
-      .price .name { grid-column: 1 / -1; }
-      .price .desc { grid-column: 1 / -1; }
-      .price .num::before { content: attr(data-label) "  "; color: var(--ink-2); font-size: .72rem; letter-spacing: .06em; }
-      .price .num { white-space: normal; }
+    /* 예시 화면 캐러셀 — 옆으로 넘김. 스크립트 없이 scroll-snap, 뒤에 오로라 빛 하나 */
+    .tour { position: relative; isolation: isolate; }
+    .tour::before { content: ""; position: absolute; z-index: -1; left: -2%; right: 12%; top: -2%; height: 84%; background: radial-gradient(closest-side, rgba(124,58,237,.55), rgba(124,58,237,0)); filter: blur(56px); pointer-events: none; }
+    .tour-head { display: flex; justify-content: space-between; gap: 6px 12px; flex-wrap: wrap; font-size: .8rem; color: var(--fg-3); margin-bottom: 12px; }
+    .tour-head .hint { font-size: .8rem; }
+    .tour-track { display: grid; grid-auto-flow: column; grid-auto-columns: 84%; gap: 18px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 4px; padding: 4px 4px 20px; margin: 0 -4px; scrollbar-width: thin; scrollbar-color: var(--accent-btn) rgba(255,255,255,.06); }
+    .tour-track:focus-visible { outline-offset: 6px; }
+    .tour-card { margin: 0; min-width: 0; scroll-snap-align: start; }
+    .tour-card .frame, .mosaic .frame { aspect-ratio: 16 / 10; background: var(--tile); outline: 1px solid var(--hair-2); outline-offset: 3px; overflow: hidden; }
+    .tour-card img, .mosaic img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+    .tour-card figcaption { display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; align-items: baseline; padding: 16px 2px 0; }
+    .tour-card .k { grid-row: span 2; font-family: var(--display); font-weight: 700; font-size: 1.2rem; line-height: 1.25; color: var(--accent); }
+    .tour-card b { font-size: 1.06rem; letter-spacing: -.01em; }
+    .tour-card .d { color: var(--fg-3); font-size: .9rem; }
+    @supports selector(::scroll-button(*)) {
+      .tour-head .hint { visibility: hidden; }
+      .tour-head > span:first-child { max-width: calc(100% - 108px); }
+      .tour-track { anchor-name: --tour; scrollbar-width: none; scroll-marker-group: after; padding-bottom: 6px; }
+      .tour-track::scroll-button(*) { position: fixed; position-anchor: --tour; position-area: top center; align-self: end; justify-self: end; margin-bottom: 10px; width: 40px; height: 40px; display: grid; place-items: center; background: rgba(255,255,255,.05); border: 1px solid var(--hair-2); color: var(--fg); font: 600 1.05rem/1 var(--display); cursor: pointer; transition: background .2s var(--ease); }
+      .tour-track::scroll-button(inline-start) { content: "←" / "이전 화면"; margin-right: 48px; }
+      .tour-track::scroll-button(inline-end) { content: "→" / "다음 화면"; }
+      .tour-track::scroll-button(*):hover { background: rgba(255,255,255,.1); }
+      .tour-track::scroll-button(*):disabled { opacity: .3; cursor: default; }
+      .tour-track::scroll-button(*):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .tour-track::scroll-marker-group { display: flex; gap: 6px; margin-top: 18px; }
+      .tour-card::scroll-marker { content: "" / attr(data-label); width: 28px; height: 4px; background: rgba(255,255,255,.18); cursor: pointer; }
+      .tour-card::scroll-marker:target-current { background: var(--accent); }
+      .tour-card::scroll-marker:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     }
 
-    /* ═══════════ 약속 ═══════════ */
-    ul.checks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; border-top: 1px solid var(--rule); }
-    @media (max-width: 760px) { ul.checks { grid-template-columns: 1fr; } }
-    ul.checks li { padding: 14px 0 14px 34px; border-bottom: 1px solid var(--rule-soft); position: relative; }
-    ul.checks li::before { content: "✓"; position: absolute; left: 0; top: 13px; font-family: var(--mono); font-weight: 900; background: var(--lime); color: var(--lime-ink); width: 22px; height: 22px; display: grid; place-items: center; font-size: .8rem; }
+    /* 타일 — 이중 프레임 */
+    .tiles { display: grid; gap: 14px; }
+    .g5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile { position: relative; min-width: 0; display: flex; flex-direction: column; gap: 10px; background: var(--tile); padding: 16px 16px 15px; outline: 1px solid var(--hair); outline-offset: 3px; color: var(--fg); transition: outline-color .3s var(--ease), background .3s var(--ease); }
+    .tile:hover { outline-color: transparent; background: var(--tile-2); }
+    .tile .top { display: flex; align-items: center; gap: 8px; }
+    .tile .id { font-family: var(--display); font-weight: 700; font-size: .86rem; color: var(--fg-2); }
+    .tile .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+    .dot.x { background: var(--bad); } .dot.h { background: var(--warn); } .dot.o { background: var(--ok); }
+    .tile .top .vtag { margin-left: auto; }
+    .tile h3 { margin: 0; font-size: 1rem; font-weight: 700; line-height: 1.4; letter-spacing: -.01em; }
+    .tile p { margin: 0; font-size: .86rem; color: var(--fg-3); line-height: 1.55; }
+    .tile .ico { width: 36px; height: 36px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+    .tile .ico svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .tile .ico { flex: none; }
+    .tile .ico.sm { width: 30px; height: 30px; } .tile .ico.sm svg { width: 17px; height: 17px; }
+    .tile.feat .ico { background: var(--accent-btn); color: #fff; box-shadow: inset 0 -2px 0 var(--accent-edge); }
+    .tile .top .badge { margin-left: 0; }
+    .tile.feat { background: linear-gradient(180deg, rgba(124,58,237,.10), rgba(124,58,237,.26)), var(--tile); outline-color: var(--accent-line); }
+    .tile.feat .id { color: var(--accent); }
+    .tile.feat p { color: var(--fg-2); }
+    .badge { display: inline-flex; align-items: center; height: 18px; padding: 0 6px; font-size: .66rem; font-weight: 700; background: var(--accent-soft); color: var(--accent); }
 
-    /* ═══════════ FAQ ═══════════ */
-    .faq { border-top: 1px solid var(--rule); counter-reset: q; }
-    details { border-bottom: 1px solid var(--rule-soft); }
-    summary { cursor: pointer; list-style: none; display: grid; grid-template-columns: 56px 1fr 28px; gap: 16px; align-items: baseline; padding: 16px 0; font-weight: 750; letter-spacing: -0.01em; }
-    summary::-webkit-details-marker { display: none; }
-    summary::before { counter-increment: q; content: counter(q, decimal-leading-zero); font-family: var(--mono); font-size: .85rem; color: var(--ink-2); font-weight: 400; }
-    summary::after { content: "+"; font-family: var(--mono); font-size: 1.2rem; text-align: right; }
-    details[open] summary::after { content: "–"; }
-    details p { margin: 0 0 18px 72px; color: var(--ink-2); max-width: 70ch; }
-    @media (max-width: 720px) { summary { grid-template-columns: 40px 1fr 24px; } details p { margin-left: 56px; } }
+    /* 섹션 */
+    section.sec { padding: 112px 0 0; }
+    .sec-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 26px; }
+    .sec-head h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.7rem, 3.4vw, 2.6rem); line-height: 1.1; letter-spacing: -.035em; color: var(--accent); margin: 0; text-transform: uppercase; }
+    .sec-head .sub { display: block; margin-top: 10px; font-size: 1rem; color: var(--fg-2); max-width: 46rem; }
+    .note { margin-top: 22px; background: var(--tile); border-left: 3px solid var(--accent); padding: 14px 18px; color: var(--fg-2); }
+    .note b { color: var(--fg); }
 
-    /* ═══════════ 끝 CTA + 푸터 ═══════════ */
-    .end { background: var(--ink); color: var(--bone); border-top: 0; padding: 72px 0; }
-    .end h2 { font-size: clamp(2rem, 6vw, 4.2rem); letter-spacing: -0.045em; line-height: 1; }
-    .end .lead { color: var(--bone); opacity: .8; }
-    .end .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
-    .end .btn.line { color: var(--bone); border-color: var(--bone); }
-    .end .btn.line:hover { background: var(--bone); color: var(--ink); }
-    footer.site { background: var(--ink); color: var(--bone); border-top: 1px solid rgba(243,241,234,.25); padding: 22px 0 40px; font-family: var(--mono); font-size: .74rem; letter-spacing: .03em; }
-    footer.site p { opacity: .8; }
-    footer.site ul { list-style: none; padding: 0; margin: 10px 0 0; display: flex; gap: 18px; flex-wrap: wrap; }
-    footer.site a { color: var(--bone); }
+    /* 받는 것 — 화면 모자이크. 끝이 바탕으로 사라지고 그 위에 반투명 칩 */
+    .sec-head .cap { font-size: .8rem; color: var(--fg-3); }
+    .mosaic { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px 16px; padding: 4px; margin: 0 -4px; }
+    .mosaic figure { margin: 0; min-width: 0; }
+    .mosaic figcaption { margin-bottom: 12px; }
+    .mosaic figcaption b { display: block; font-size: .98rem; letter-spacing: -.01em; }
+    .mosaic figcaption span { display: block; margin-top: 2px; font-size: .86rem; color: var(--fg-3); }
+    .mosaic .frame { transition: outline-color .3s var(--ease); }
+    .mosaic figure:hover .frame { outline-color: var(--accent-line); }
+    .mosaic::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(rgba(7,10,23,0), var(--bg) 78%); pointer-events: none; z-index: 1; }
+    .mosaic .more { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 2; }
+
+    /* 실제 리포트 */
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--tile); outline: 1px solid var(--hair); outline-offset: 3px; margin-bottom: 18px; }
+    .stat { padding: 20px 22px; border-right: 1px solid var(--hair); }
+    .stat:last-child { border-right: 0; }
+    .stat b { display: block; font-family: var(--display); font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+    .stat b em { font-style: normal; color: var(--accent); }
+    .stat span { display: block; margin-top: 8px; color: var(--fg-2); font-size: .92rem; }
+    .find { display: flex; flex-direction: column; gap: 14px; }
+    .find .top { display: flex; justify-content: space-between; align-items: center; font-size: .8rem; color: var(--fg-3); }
+    .find h3 { font-size: 1.3rem; letter-spacing: -.02em; line-height: 1.3; }
+    .code { font-family: var(--mono); font-size: .8rem; line-height: 1.75; color: #cfccdf; background: var(--sunk); outline: 1px solid var(--hair); padding: 14px 16px; overflow-x: auto; white-space: pre; }
+    .code .cm { color: var(--fg-3); }
+    .code .ghost { display: block; color: var(--accent); background: rgba(124,58,237,.12); border-left: 2px solid var(--accent); margin: 2px -16px; padding: 0 14px; }
+    .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; }
+    .vs div { background: var(--sunk); padding: 12px 14px; font-size: .86rem; color: var(--fg-2); outline: 1px solid var(--hair); }
+    .vs b { display: block; font-family: var(--display); font-size: .78rem; margin-bottom: 4px; }
+    .vs .no b { color: var(--bad); } .vs .yes b { color: var(--accent); }
+
+    /* 어떻게 — 가로 단계 */
+    .steps { counter-reset: s; }
+    .step-tile .n { font-family: var(--display); font-weight: 700; font-size: 2rem; letter-spacing: -.04em; color: var(--accent); line-height: 1; }
+    .step-tile .t { font-family: var(--mono); font-size: .74rem; color: var(--fg-3); }
+    .track { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 0 0 12px; }
+    .track i { height: 4px; background: var(--accent); opacity: .9; }
+    .track i:nth-child(n+4) { background: rgba(182,140,255,.35); }
+    .pkg { margin-top: 26px; }
+    .pkg h3 { font-family: var(--display); font-size: 1.1rem; margin: 0 0 12px; color: var(--fg); }
+
+    /* 가격 */
+    .price .tile { gap: 12px; }
+    .price .name { font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+    .price .amt { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--hair); display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+    .price .amt b { font-family: var(--display); font-size: 1.35rem; letter-spacing: -.02em; }
+    .price .amt .now { font-size: .8rem; font-weight: 700; color: var(--ok); background: var(--ok-soft); padding: 3px 8px; }
+    .price .amt .later { font-size: .8rem; color: var(--fg-3); }
+    .opts { margin-top: 18px; font-size: .86rem; color: var(--fg-3); }
+
+    /* 약속 */
+    .promise { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 36px; margin: 0; padding: 0; list-style: none; }
+    .promise li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--hair); color: var(--fg-2); }
+    .promise li::before { content: "✓"; font-weight: 800; color: var(--accent); line-height: 1.6; }
+    .promise b { color: var(--fg); }
+    .ask { margin-top: 30px; }
+    .ask .tile .id { font-family: var(--mono); font-size: .74rem; color: var(--fg-3); letter-spacing: .02em; }
+
+    /* FAQ */
+    .faq { border-top: 1px solid var(--hair); }
+    .faq details { border-bottom: 1px solid var(--hair); }
+    .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 4px; font-weight: 600; font-size: 1.02rem; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; font-family: var(--display); font-size: 1.4rem; color: var(--accent); transition: transform .2s var(--ease); flex: none; }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq summary:hover { color: var(--accent); }
+    .faq p { margin: 0 4px 20px; color: var(--fg-2); max-width: 52rem; }
+
+    /* 마지막 권유 */
+    .end { margin-top: 120px; }
+    .end .banner { min-height: 380px; }
+    .end .display { font-size: clamp(2.4rem, 6vw, 4.6rem); }
+
+    footer { margin-top: 96px; border-top: 1px solid var(--hair); padding: 28px 0 40px; font-size: .84rem; color: var(--fg-3); }
+    footer .row { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+    footer ul { display: flex; gap: 16px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+    footer a { color: var(--fg-2); }
+    footer p { margin: 0 0 8px; max-width: 60rem; }
+
+    @media (max-width: 1100px) { .app { width: 320px; } .g5 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); } .mosaic::after { height: 26%; } }
+    @media (max-width: 860px) {
+      .g3, .g2 { grid-template-columns: 1fr; } .promise { grid-template-columns: 1fr; } .stats { grid-template-columns: 1fr; } .stat { border-right: 0; border-bottom: 1px solid var(--hair); } .stat:last-child { border-bottom: 0; }
+      .track { display: none; }
+    }
+    @media (max-width: 720px) {
+      .wrap { padding: 0 16px; }
+      .topnav .wrap { gap: 10px; height: 56px; }
+      .menu { display: none; }
+      .topnav .right { margin-left: auto; }
+      .topnav .right .login { display: none; }
+      .hero { padding-top: 48px; }
+      section.sec { padding-top: 84px; }
+      .g5, .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .banner { padding: 40px 18px 36px; }
+      .vs { grid-template-columns: 1fr; }
+      .tour-track { grid-auto-columns: 88%; gap: 12px; }
+      .wallbox { margin-top: 44px; } .app { width: 260px; } .app figcaption { font-size: .72rem; left: 8px; bottom: 8px; padding: 5px 8px; }
+      .mosaic { grid-template-columns: 1fr; } .mosaic figure:nth-child(n+4) { display: none; } .mosaic::after { height: 30%; }
+      .btn.lg { height: 48px; padding: 0 18px; font-size: .96rem; }
+    }
+    @media (max-width: 420px) { .g5, .g4 { grid-template-columns: 1fr; } .acts .btn { width: 100%; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } .belt { animation: none; } .wall .row { overflow-x: auto; } .wall-stop { display: none; } }
   </style>
 </head>
 <body>
-  <a class="skip" href="#main">본문으로 건너뛰기</a>
+  <a class="skip" href="#main">본문으로</a>
 
-  <div class="status" aria-hidden="true">
-    <div class="wrap">
-      <span class="cur">vamuri / 출시 전 진단 / 무료 기간 / 2026-10</span>
-      <span class="r">79 ITEMS · 10 BUNDLES · READ-ONLY · NDA FIRST</span>
-    </div>
-  </div>
+  <div class="strip"><div class="wrap"><span>지금은 무료 기간입니다 — 유료 전환은 최소 30일 전에 알리고, 진행 중인 건은 무료로 끝냅니다.</span><a href="https://vamuri.vercel.app/login">무료로 시작 →</a></div></div>
 
-  <header class="head">
+  <header class="topnav">
     <div class="wrap">
-      <a class="brand" href="#top" aria-label="vamuri 홈">vamuri<i aria-hidden="true"></i></a>
-      <nav class="top" aria-label="주요">
-        <ul>
-          <li><a href="#what">01 무엇을 보나</a></li>
-          <li><a href="#how">02 어떻게</a></li>
-          <li><a href="#price">04 가격</a></li>
-          <li><a href="#faq">06 FAQ</a></li>
-          <li class="cta"><a class="btn lime" href="https://docs.google.com/forms/d/e/1FAIpQLScJYMfTkmPiyMdvxubsUvAAIMsAf2XRoNiVL3lmA7qV7QwrUw/viewform">무료 진단 신청</a></li>
-        </ul>
+      <a class="brand" href="#top" aria-label="vamuri 처음으로"><span class="mark" aria-hidden="true">v</span>vamuri</a>
+      <nav class="menu" aria-label="주요">
+        <a href="#stuck">어디서 막히나</a><a href="#what">무엇을 보나</a><a href="#inside">받는 것</a><a href="#report">실제 리포트</a><a href="#how">어떻게</a><a href="#price">가격</a><a href="#faq">FAQ</a>
       </nav>
+      <div class="right">
+        <a class="btn sm login" href="https://vamuri.vercel.app/login">로그인</a>
+        <a class="btn primary sm" href="https://vamuri.vercel.app/login">무료로 시작</a>
+      </div>
     </div>
   </header>
 
   <main id="main">
     <section class="hero" id="top">
       <div class="wrap">
-        <div class="kicker"><span><b>바이브코딩</b>으로 만든 웹서비스</span><span>출시 전 진단</span><span><mark>지금은 무료 기간</mark></span></div>
-        <h1>코드는 다 짰는데,<br>출시가 안 됩니다.</h1>
-        <div class="sub">
-          <p class="lead">결제사 심사, 카카오 로그인, 약관, 배포, 요금 폭탄 — <mark>코드 바깥</mark>에서 막히는 열 가지를 출시 전에 같이 끝냅니다. 저장소는 읽기만 하고, 리포트는 2~3영업일 안에.</p>
-          <div class="actions">
-            <a class="btn lime" href="https://docs.google.com/forms/d/e/1FAIpQLScJYMfTkmPiyMdvxubsUvAAIMsAf2XRoNiVL3lmA7qV7QwrUw/viewform">무료 진단 신청 <span class="arr">→</span></a>
-            <a class="btn line" href="#how">어떻게 하나</a>
-          </div>
+        <div class="eyebrow"><i aria-hidden="true"></i>바이브코딩으로 만든 웹서비스 · 출시 전 진단</div>
+        <h1>코드는 다 짰는데,<br><span class="n">출시</span>가 안 됩니다.</h1>
+        <p class="lede">결제사 심사, 카카오 로그인, 약관, 배포, 요금 폭탄 — <b>코드 바깥</b>에서 막히는 것을 출시 전에 찾아 같이 끝냅니다. 저장소는 읽기만 하고, 출시를 막는 것부터 번호와 파일·줄로 돌려드립니다.</p>
+        <div class="acts">
+          <a class="btn primary lg" href="https://vamuri.vercel.app/login"><svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub 로 무료 진단 시작</a>
+          <a class="btn white lg" href="#report">실제 리포트 보기</a>
         </div>
+        <div class="micro"><span>가입 절차 없이 GitHub 로그인</span><span>저장소 주소 하나</span><span>분석 30~40분 · 검토 1영업일</span><span>복제본은 전달 뒤 삭제</span></div>
 
-        <figure class="ledger" aria-label="상세 진단 리포트 미리보기">
-          <div class="lrow"><span>NO.</span><span>판정</span><span>항목</span><span>근거</span></div>
-          <div class="lrow"><span class="n">2.1</span><span class="v ok">통과</span><span class="t">모든 API 라우트가 권한을 명시하고 미명시는 기본 거부</span><span class="e">auth/access.guard.ts:61 · 185 라우트 전수</span></div>
-          <div class="lrow"><span class="n">5.4</span><span class="v bad">문제</span><span class="t">결제 웹훅 — 서명 검증 · 중복 이벤트 · 순서 역전</span><span class="e">수신 엔드포인트 없음 (검색: webhook → 0건)</span></div>
-          <div class="lrow"><span class="n">6.4</span><span class="v bad">문제</span><span class="t">운영 설정 ↔ 부팅 검사 대조</span><span class="e">compose.prod.yml 에 WEB_ORIGIN 없음 → 모든 쓰기 403</span></div>
-          <div class="lrow"><span class="n">13.3</span><span class="v bad">문제</span><span class="t">처리방침이 코드 사실과 일치</span><span class="e">terms-seed.ts:116 "[확정 대기: 상호]" 자리표시자 공개</span></div>
-          <div class="lrow"><span class="n">5.11</span><span class="v ok">통과</span><span class="t">같은 자리 중복 판매 — DB 가 최종 방어선</span><span class="e">migrations/…:136 UNIQUE … WHERE status IN ('HELD','CONFIRMED')</span></div>
-        </figure>
-        <figcaption class="ledger-cap"><span>14영역 79항목 — 통과 / 문제 / 해당없음 / 미확인</span><span>미확인은 확인 방법까지 · 근거는 파일:줄</span></figcaption>
       </div>
-
-      <div class="ticker" aria-hidden="true">
-        <div class="track">
-          <span>01 사업자·서류</span><span>02 결제 — PG → 어댑터 → 웹훅 → 대사</span><span>03 환불 규정 — 코드·약관·화면 일치</span><span>04 배포 실물</span><span>05 운영 설정 정합</span><span>06 가입·로그인 경로 개통</span><span>07 약관·처리방침·고지</span><span>08 관측·백업·비용</span><span>09 목업 숨김·판매자 쓰기</span><span>10 로그 개인정보·복구·동시성</span>
-          <span>01 사업자·서류</span><span>02 결제 — PG → 어댑터 → 웹훅 → 대사</span><span>03 환불 규정 — 코드·약관·화면 일치</span><span>04 배포 실물</span><span>05 운영 설정 정합</span><span>06 가입·로그인 경로 개통</span><span>07 약관·처리방침·고지</span><span>08 관측·백업·비용</span><span>09 목업 숨김·판매자 쓰기</span><span>10 로그 개인정보·복구·동시성</span>
+      <div class="wallbox">
+        <div class="wrap wall-head"><span>쇼핑몰, 예약, 구독, 커뮤니티. 앱은 달라도 출시 직전에 막히는 곳은 비슷합니다.</span><span class="meta">예시 화면 · 가상의 서비스<label class="wall-stop"><input type="checkbox" aria-label="움직임 멈추기"><span class="off">멈춤</span><span class="on">다시 흐르게</span></label></span></div>
+        <div class="wall">
+          <div class="row row-a"><div class="belt">
+              <figure class="app"><img src="img/apps/shop.jpg" width="768" height="480" alt="가상의 쇼핑몰 상품 목록"><figcaption><b>쇼핑몰</b><span>결제 웹훅이 서명을 확인하지 않음</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/banchan.jpg" width="768" height="480" alt="가상의 반찬 주문 앱 두 화면"><figcaption><b>주문</b><span>새 주문 알림이 콘솔 출력뿐</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/saas.jpg" width="768" height="480" alt="가상의 판매 분석 대시보드"><figcaption><b>구독 서비스</b><span>운영과 개발이 같은 DB</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/fitness.jpg" width="768" height="480" alt="가상의 운동 기록 앱 두 화면"><figcaption><b>운동 기록</b><span>건강정보 동의를 따로 받지 않음</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/class.jpg" width="768" height="480" alt="가상의 온라인 클래스 목록"><figcaption><b>클래스</b><span>환불 규정이 약관·화면·코드마다 다름</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/budget.jpg" width="768" height="480" alt="가상의 가계부 앱 두 화면"><figcaption><b>가계부</b><span>로그에 이메일·전화번호가 그대로</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/community.jpg" width="768" height="480" alt="가상의 동네 커뮤니티 피드"><figcaption><b>커뮤니티</b><span>신고를 처리할 화면이 없음</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/usedmarket.jpg" width="768" height="480" alt="가상의 중고거래 앱 두 화면"><figcaption><b>중고거래</b><span>거래 신고를 받을 창구가 없음</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/shop.jpg" width="768" height="480" alt=""><figcaption><b>쇼핑몰</b><span>결제 웹훅이 서명을 확인하지 않음</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/banchan.jpg" width="768" height="480" alt=""><figcaption><b>주문</b><span>새 주문 알림이 콘솔 출력뿐</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/saas.jpg" width="768" height="480" alt=""><figcaption><b>구독 서비스</b><span>운영과 개발이 같은 DB</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/fitness.jpg" width="768" height="480" alt=""><figcaption><b>운동 기록</b><span>건강정보 동의를 따로 받지 않음</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/class.jpg" width="768" height="480" alt=""><figcaption><b>클래스</b><span>환불 규정이 약관·화면·코드마다 다름</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/budget.jpg" width="768" height="480" alt=""><figcaption><b>가계부</b><span>로그에 이메일·전화번호가 그대로</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/community.jpg" width="768" height="480" alt=""><figcaption><b>커뮤니티</b><span>신고를 처리할 화면이 없음</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/usedmarket.jpg" width="768" height="480" alt=""><figcaption><b>중고거래</b><span>거래 신고를 받을 창구가 없음</span></figcaption></figure>
+          </div></div>
+          <div class="row row-b"><div class="belt">
+              <figure class="app"><img src="img/apps/pethotel.jpg" width="768" height="480" alt="가상의 반려견 호텔 예약 화면"><figcaption><b>예약</b><span>환불 규정을 결제 뒤에야 알려 줌</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/stay.jpg" width="768" height="480" alt="가상의 숙소 예약 앱 두 화면"><figcaption><b>숙소</b><span>운영 도메인이 없어 결제 심사를 못 냄</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/rooms.jpg" width="768" height="480" alt="가상의 원룸 매물 지도 화면"><figcaption><b>매물</b><span>처리방침이 템플릿 그대로</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/study.jpg" width="768" height="480" alt="가상의 스터디 채팅 앱 두 화면"><figcaption><b>스터디</b><span>탈퇴 뒤 대화 기록 처리가 정해지지 않음</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/inventory.jpg" width="768" height="480" alt="가상의 재고 관리 화면"><figcaption><b>관리 도구</b><span>첫 관리자 계정을 운영에서 만들 길이 없음</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/walk.jpg" width="768" height="480" alt="가상의 산책 매칭 앱 두 화면"><figcaption><b>위치 기반</b><span>위치정보 이용 동의를 받지 않음</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/salad.jpg" width="768" height="480" alt="가상의 샐러드 정기배송 화면"><figcaption><b>정기배송</b><span>해지 버튼이 어디에도 없음</span></figcaption></figure>
+              <figure class="app"><img src="img/apps/bookclub.jpg" width="768" height="480" alt="가상의 독서 구독 앱 두 화면"><figcaption><b>구독</b><span>무료 체험 뒤 자동결제를 미리 알리지 않음</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/pethotel.jpg" width="768" height="480" alt=""><figcaption><b>예약</b><span>환불 규정을 결제 뒤에야 알려 줌</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/stay.jpg" width="768" height="480" alt=""><figcaption><b>숙소</b><span>운영 도메인이 없어 결제 심사를 못 냄</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/rooms.jpg" width="768" height="480" alt=""><figcaption><b>매물</b><span>처리방침이 템플릿 그대로</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/study.jpg" width="768" height="480" alt=""><figcaption><b>스터디</b><span>탈퇴 뒤 대화 기록 처리가 정해지지 않음</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/inventory.jpg" width="768" height="480" alt=""><figcaption><b>관리 도구</b><span>첫 관리자 계정을 운영에서 만들 길이 없음</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/walk.jpg" width="768" height="480" alt=""><figcaption><b>위치 기반</b><span>위치정보 이용 동의를 받지 않음</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/salad.jpg" width="768" height="480" alt=""><figcaption><b>정기배송</b><span>해지 버튼이 어디에도 없음</span></figcaption></figure>
+              <figure class="app" aria-hidden="true"><img src="img/apps/bookclub.jpg" width="768" height="480" alt=""><figcaption><b>구독</b><span>무료 체험 뒤 자동결제를 미리 알리지 않음</span></figcaption></figure>
+          </div></div>
         </div>
       </div>
     </section>
 
-    <section id="stuck" aria-labelledby="stuck-h">
+    <section class="sec" id="tour" aria-labelledby="tour-h">
       <div class="wrap">
-        <div class="sec-head"><span class="idx">00 / 어디서 막히나</span><div><h2 id="stuck-h">보안 코드는 생각보다 잘 되어 있습니다.<br>비어 있는 건 돈·법·서버·관측입니다.</h2><p class="lead">커뮤니티에서 반복되는 다섯.</p></div></div>
-        <div class="cols">
-          <div class="cell"><div class="k">01 결제</div><h3>심사가 안 넘어간다</h3><p>토스/포트원 연동 · 웹훅 · 환불 규정이 코드·약관·화면에서 제각각</p></div>
-          <div class="cell"><div class="k">02 인증</div><h3>가입 경로가 안 열린다</h3><p>카카오·네이버 로그인, 본인인증, 문자 인증 — 운영에서 실제로 열리는 게 하나도 없는 경우</p></div>
-          <div class="cell"><div class="k">03 배포</div><h3>설정 하나에 전부 403</h3><p>도메인·HTTPS·환경 분리·권한. 운영 설정 하나가 빠져 부팅이 안 되거나 모든 요청이 막히는 구성</p></div>
-          <div class="cell"><div class="k">04 법규</div><h3>자리표시자가 공개된다</h3><p>처리방침·약관·통신판매업·동의 — "[확정 대기]" 인 채 공개, 효력일이 거꾸로 된 개정판</p></div>
-          <div class="cell hl"><div class="k">05 비용·운영</div><h3>알림이 없어 요금 폭탄</h3><p>백업 없음, CI 분 소진, 첫 관리자를 운영에서 만들 길이 없는 콘솔</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="what" aria-labelledby="what-h">
-      <div class="wrap">
-        <div class="sec-head"><span class="idx">01 / 무엇을 보나</span><div><h2 id="what-h">출시 경로 10묶음</h2><p class="lead">14영역 79항목을 출시를 막는 순서대로 묶었습니다. 항목마다 통과 / 문제 / 해당없음 / 미확인을 근거(파일·줄)와 함께, 미확인은 확인 방법까지.</p></div></div>
-        <ol class="list two">
-          <li><div><strong>사업자·서류</strong> <span>— 통신판매업, 사업자 정보 표시, 실 도메인</span></div></li>
-          <li><div><strong>결제</strong> <span>— PG 선정 → 어댑터 → 웹훅 → 대사(對査). 운영 기본값이 결제를 끄지 않는가</span></div></li>
-          <li><div><strong>환불 규정</strong> <span>— 코드·약관·결제 전 고지가 같은가, 누가 환불을 집행하는가</span></div></li>
-          <li><div><strong>배포 실물</strong> <span>— 도메인·HTTPS·헬스체크·롤백</span></div></li>
-          <li><div><strong>운영 설정 정합</strong> <span>— 환경변수와 부팅 검사, 정책값이 결정값인가</span></div></li>
-          <li><div><strong>가입·로그인 경로</strong> <span>— 메일·문자·소셜 중 운영에서 실제로 열리는 것</span></div></li>
-          <li><div><strong>약관·처리방침·고지</strong> <span>— 값·조항·효력 순서</span></div></li>
-          <li><div><strong>관측·백업·비용</strong> <span>— 장애를 알 수 있고 되돌릴 수 있는가</span></div></li>
-          <li><div><strong>목업 숨김·판매자 쓰기</strong> <span>— 시안이 실 사용자에게 안 보이는가, 운영 당사자가 쓸 수 있는가</span></div></li>
-          <li><div><strong>로그 개인정보·복구 경로·동시성</strong> <span>— 증명까지</span></div></li>
-        </ol>
-        <p class="callout"><strong>배포가 먼저입니다.</strong> PG 심사 URL, 웹훅 주소, 소셜 로그인 콘솔, 메일 도메인 인증, 실기기 테스트가 전부 실 도메인을 요구합니다. 그래서 외부 의존은 첫날 착수하고, 코드는 배포 실물부터 합니다.</p>
-      </div>
-    </section>
-
-    <section id="how" aria-labelledby="how-h">
-      <div class="wrap">
-        <div class="sec-head"><span class="idx">02 / 어떻게 하나</span><div><h2 id="how-h">신청부터 권한 회수까지</h2></div></div>
-        <ol class="list">
-          <li><div><strong>신청 폼</strong> <span>— 5분. 48시간 안에 무료 진단 결과 또는 대기 순번</span></div></li>
-          <li><div><strong>접근 방식 선택</strong> <span>— 읽기 권한 제공 또는 "코드 비공개". 어느 쪽이든 비밀유지약정이 먼저</span></div></li>
-          <li><div><strong>읽기 전용 진단</strong> <span>— 기준 커밋을 고정하고 브랜치·커밋을 만들지 않습니다</span></div></li>
-          <li><div><strong>리포트</strong> <span>— 항목마다 판정 + 근거 <code>파일:줄</code> + 미확인은 확인 방법</span></div></li>
-          <li><div><strong>우선순위 회의 60분</strong> <span>— 차단 / 권장 / 후순위를 같이 정합니다</span></div></li>
-          <li><div><strong>(출시 패키지) 수정</strong> <span>— 카드 1장 = PR 1개, UI 는 그대로, 머지는 여러분이</span></div></li>
-          <li><div><strong>운영 문서 셋과 권한 회수 확인서</strong> <span>— 런북 · 계정 대장 · 시크릿 대장</span></div></li>
-        </ol>
-        <p class="callout"><strong>AI 가 읽고, 사람이 판정합니다.</strong> 어떤 도구를 쓰는지, 코드가 어디로 가는지 <a href="https://docs.google.com/document/d/1FtNx4bceGcD-CmRkZzOC4W0bQDxu0_m1QTPOPtFfCPM/edit?usp=sharing">개인정보 처리방침</a>에 적어 두었고, 입력을 학습에 쓰지 않는 조건의 서비스를 씁니다.</p>
-      </div>
-    </section>
-
-    <section id="case" aria-labelledby="case-h">
-      <div class="wrap">
-        <div class="sec-head"><span class="idx">03 / 최근 진단</span><div><h2 id="case-h">예약형 서비스 한 곳, 출시 전 전수 진단</h2></div></div>
-        <div class="case">
-          <p class="lead">권한 검사, 비밀번호 해시, 입력 검증, 같은 자리 중복 판매 방지는 <mark>전부 통과</mark>였습니다. 비어 있던 것은 코드가 아니라 — 운영 설정 두 줄이 빠져 모든 호출이 403 이 되는 구성, 메일 공급자가 없어 운영 기동 자체가 불가능한 상태, 판매자 콘솔에 가짜 정산 숫자가 기본 메뉴로 들어간 것, 약관이 자리 표시자인 채 공개된 것이었습니다. <span class="mono">사례는 동의를 받은 것만, 익명으로만.</span></p>
-          <div class="figs">
-            <div><b>50+</b><span>차단 등급 문제</span></div>
-            <div><b>1/2</b><span>코드가 아니라 서류·결정</span></div>
-            <div><b>0</b><span>접근 제어·동시성 결함</span></div>
+        <div class="sec-head"><div><h2 id="tour-h">리포트는 이렇게 옵니다</h2><span class="sub">출시를 막는 것부터 근거와 고칠 방향까지. 고친 뒤 다시 돌리면 달라진 것만 위로 올라옵니다.</span></div></div>
+        <div class="tour">
+          <div class="tour-head"><span>예시 화면 · 가상의 예약 서비스</span><span class="hint" aria-hidden="true">옆으로 넘겨 보기 →</span></div>
+          <div class="tour-track" role="region" aria-label="예시 화면 넷, 옆으로 넘겨 봅니다" tabindex="0">
+            <figure class="tour-card" data-label="출시를 막는 것부터">
+              <div class="frame"><img src="img/tour-home.jpg" srcset="img/tour-home-960.jpg 960w, img/tour-home.jpg 1920w" sizes="(max-width: 720px) 88vw, 1040px" width="1920" height="1200" loading="lazy" alt="예시 홈 화면. 출시를 막는 것 36 배너 둘레에 판정 숫자, 실행 8/8, 고쳤음 3/36 조각이 있고, 아래 출시 경로 10묶음에서 G4 배포 실물에 먼저 표시가 붙어 있다."></div>
+              <figcaption><span class="k">01</span><b>출시를 막는 것부터</b><span class="d">몇 개가 막고 있는지, 10묶음 중 무엇부터 풀지 홈 첫 화면에 둡니다.</span></figcaption>
+            </figure>
+            <figure class="tour-card" data-label="근거는 파일·줄로">
+              <div class="frame"><img src="img/tour-report.jpg" srcset="img/tour-report-960.jpg 960w, img/tour-report.jpg 1920w" sizes="(max-width: 720px) 88vw, 1040px" width="1920" height="1200" loading="lazy" alt="예시 리포트. 5.4 웹훅 항목을 펼쳐 재검토 메모, 파일 경로와 줄 번호가 든 근거, 고칠 방향, 고쳤음 체크가 보이고 오른쪽에 목차가 있다."></div>
+              <figcaption><span class="k">02</span><b>근거는 파일·줄로</b><span class="d">항목마다 판정과 근거, 고칠 방향. 다시 본 판정에는 재검토 메모가 붙습니다.</span></figcaption>
+            </figure>
+            <figure class="tour-card" data-label="분석은 30~40분">
+              <div class="frame"><img src="img/tour-progress.jpg" srcset="img/tour-progress-960.jpg 960w, img/tour-progress.jpg 1920w" sizes="(max-width: 720px) 88vw, 1040px" width="1920" height="1200" loading="lazy" alt="예시 분석 화면. 질문지 8개 중 3개가 끝났고 지금 C 환경·배포를 읽는 중이며 남은 시간은 약 19분이다."></div>
+              <figcaption><span class="k">03</span><b>분석은 30~40분</b><span class="d">질문지 8개를 차례로 읽습니다. 남은 시간이 보이고, 창을 닫아도 계속됩니다.</span></figcaption>
+            </figure>
+            <figure class="tour-card" data-label="고친 뒤엔 달라진 것만">
+              <div class="frame"><img src="img/tour-diff.jpg" srcset="img/tour-diff-960.jpg 960w, img/tour-diff.jpg 1920w" sizes="(max-width: 720px) 88vw, 1040px" width="1920" height="1200" loading="lazy" alt="예시 재진단 화면. 지난 진단과 달라진 항목 4개가 모두 문제에서 통과로 바뀌었고, 아래에 남은 출시를 막는 것 36이 이어진다."></div>
+              <figcaption><span class="k">04</span><b>고친 뒤엔 달라진 것만</b><span class="d">다시 진단하면 지난 리포트와 판정이 바뀐 항목을 맨 위에 모읍니다.</span></figcaption>
+            </figure>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="price" aria-labelledby="price-h">
+    <section class="sec" id="stuck" aria-labelledby="stuck-h">
       <div class="wrap">
-        <div class="sec-head"><span class="idx">04 / 가격</span><div><h2 id="price-h">지금은 무료 기간입니다</h2><p class="lead">서비스를 다듬는 기간이라 산출물은 정가와 같습니다. 유료 전환일은 최소 30일 전에 메일로 알리고, 진행 중인 건은 무료로 끝냅니다.</p></div></div>
-        <div class="price" role="table" aria-label="상품과 가격">
-          <div class="prow h" role="row"><span role="columnheader">상품</span><span role="columnheader">내용</span><span role="columnheader">정가</span><span role="columnheader">무료 기간</span></div>
-          <div class="prow" role="row"><span class="name" role="cell">무료 진단</span><span class="desc" role="cell">준비물 표 + 출시 경로 10묶음 판정, 1쪽. 신청 뒤 48시간 안</span><span class="num" role="cell" data-label="정가">0원</span><span class="num" role="cell" data-label="무료 기간"><span class="free">무료 (계속)</span></span></div>
-          <div class="prow" role="row"><span class="name" role="cell">상세 진단</span><span class="desc" role="cell">79항목 리포트 + 수정 제안 + 회의 60분. 2~3영업일, 주 2팀</span><span class="num" role="cell" data-label="정가">390,000원</span><span class="num" role="cell" data-label="무료 기간"><span class="free">무료</span></span></div>
-          <div class="prow" role="row"><span class="name" role="cell">출시 패키지</span><span class="desc" role="cell">상세 진단 + 배포·설정·관측·목업·로그 수정 + 외부 동행 + 운영 문서 셋. 2~4주</span><span class="num" role="cell" data-label="정가">2,900,000원~</span><span class="num" role="cell" data-label="무료 기간"><span class="free">선착순 3팀 무료</span></span></div>
-          <div class="prow" role="row"><span class="name" role="cell">월 유지보수</span><span class="desc" role="cell">출시 뒤 운영 점검과 수정</span><span class="num" role="cell" data-label="정가">390,000원/월</span><span class="num" role="cell" data-label="무료 기간">전환 뒤</span></div>
+        <div class="sec-head"><div><h2 id="stuck-h">어디서 막히나</h2><span class="sub">보안 코드는 생각보다 잘 되어 있습니다. 비어 있는 건 돈·법·서버·관측입니다. 커뮤니티에서 반복되는 다섯.</span></div></div>
+        <div class="tiles g5">
+          <div class="tile"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12"/><path d="M3 10h18M7 15h3"/></svg></span><h3>결제 심사가 안 넘어간다</h3><p>토스·포트원 연동, 웹훅, 환불 규정이 코드·약관·화면에서 제각각</p></div>
+          <div class="tile"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span><h3>가입 경로가 안 열린다</h3><p>카카오·네이버 로그인, 본인인증, 문자 인증 — 운영에서 실제로 열리는 게 하나도 없는 경우</p></div>
+          <div class="tile feat"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M8 10l3 2-3 2M13 14h3"/></svg></span><h3>설정 한 줄에 전부 403</h3><p>도메인·HTTPS·환경 분리. 운영 설정 하나가 빠져 부팅이 안 되거나 모든 요청이 막히는 구성</p></div>
+          <div class="tile"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg></span><h3>자리표시자가 공개된다</h3><p>처리방침·약관·통신판매업·동의 — "[미정]" 자리표시자인 채 공개되거나 효력일이 거꾸로 된 개정판</p></div>
+          <div class="tile"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18M17 7H9.5a2.5 2.5 0 0 0 0 5h5a2.5 2.5 0 0 1 0 5H7"/></svg></span><h3>알림이 없어 요금 폭탄</h3><p>백업 없음, CI 분 소진, 첫 관리자를 운영에서 만들 길이 없는 콘솔</p></div>
         </div>
-        <p class="mono" style="margin-top:14px; color:var(--ink-2)">옵션(정가): 결제 연동 +1,500,000 · 법규 문안 초안 +500,000 · 인증 공급자 연동 +300,000/종. 무료 기간 신청자는 전환 뒤 첫 결제 30%.</p>
       </div>
     </section>
 
-    <section id="trust" aria-labelledby="trust-h">
+    <section class="sec" id="what" aria-labelledby="what-h">
       <div class="wrap">
-        <div class="sec-head"><span class="idx">05 / 약속</span><div><h2 id="trust-h">코드를 맡기기 전에 알아야 할 것</h2></div></div>
-        <ul class="checks">
-          <li><strong>비밀유지약정이 먼저</strong> — 저장소를 열기 전에 씁니다</li>
-          <li><strong>읽기 전용</strong> — 진단 중 브랜치·커밋·파일을 만들지 않습니다</li>
-          <li><strong>코드가 내 기계를 떠나지 않는 선택지</strong> — "코드 비공개" 를 고르면 질문지와 안내문을 드리고 분석은 여러분 기계에서</li>
-          <li><strong>UI 는 그대로</strong> — 수정은 설정·배포·결제·법규·운영 쪽</li>
-          <li><strong>종료 후 권한 회수 확인서</strong></li>
-          <li><strong>AI 사용과 전송 경로 공개</strong> — 처리방침에 적어 둡니다</li>
-          <li><strong>참고 자료이지 법률 자문이 아닙니다</strong> — 법규 항목은 확인해야 할 질문 목록을 같이 드립니다</li>
-          <li><strong>결과물은 여러분 것</strong> — 저장소에 들어간 변경은 여러분 소유, 사례는 별도 동의·익명으로만</li>
+        <div class="sec-head"><div><h2 id="what-h">출시 경로 10묶음</h2><span class="sub">14영역 79항목을 출시를 막는 순서로 묶었습니다. 항목마다 통과 / 문제 / 해당없음 / 미확인을 근거(파일·줄)와 함께, 미확인은 확인 방법까지.</span></div></div>
+        <div class="tiles g5">
+          <div class="tile"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-5h6v5"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></span><span class="id">G1</span></div><h3>사업자 · 서류</h3><p>통신판매업, 사업자 정보 표시, 실 도메인</p></div>
+          <div class="tile"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12"/><path d="M3 10h18M7 15h3"/></svg></span><span class="id">G2</span></div><h3>결제</h3><p>PG 선정 → 어댑터 → 웹훅 → 대사(對査). 운영 기본값이 결제를 끄지 않는가</p></div>
+          <div class="tile"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h10a5 5 0 0 1 0 10H9"/><path d="M8 5L4 9l4 4"/></svg></span><span class="id">G3</span></div><h3>환불 규정</h3><p>코드·약관·결제 전 고지가 같은가, 누가 환불을 집행하는가</p></div>
+          <div class="tile feat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg></span><span class="id">G4</span><span class="badge">먼저</span></div><h3>배포 실물</h3><p>도메인 · HTTPS · 헬스체크 · 롤백</p></div>
+          <div class="tile"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span><span class="id">G5</span></div><h3>운영 설정 정합</h3><p>환경변수와 부팅 검사, 정책값이 결정값인가</p></div>
+          <div class="tile"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14.5 8.5l2 2"/></svg></span><span class="id">G6</span></div><h3>가입 · 로그인 경로</h3><p>메일·문자·소셜 중 운영에서 실제로 열리는 것</p></div>
+          <div class="tile"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M8 20h8M4 7h16"/><path d="M4 7l-2.5 6h5z"/><path d="M20 7l-2.5 6h5z"/></svg></span><span class="id">G7</span></div><h3>약관 · 처리방침 · 고지</h3><p>값 · 조항 · 효력 순서</p></div>
+          <div class="tile"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><span class="id">G8</span></div><h3>관측 · 백업 · 비용</h3><p>장애를 알 수 있고 되돌릴 수 있는가</p></div>
+          <div class="tile"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></span><span class="id">G9</span></div><h3>목업 숨김 · 판매자 쓰기</h3><p>시안이 실 사용자에게 안 보이는가, 운영 당사자가 쓸 수 있는가</p></div>
+          <div class="tile"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/></svg></span><span class="id">G10</span></div><h3>로그 · 복구 · 동시성</h3><p>로그 개인정보, 역할별 복구 경로, 동시성 증명까지</p></div>
+        </div>
+        <p class="note"><b>배포가 먼저입니다.</b> 결제사 심사 URL, 웹훅 주소, 소셜 로그인 콘솔, 메일 도메인 인증, 실기기 테스트가 전부 실 도메인을 요구합니다. 그래서 외부 의존은 첫날 착수하고, 코드는 배포 실물부터 합니다.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="inside" aria-labelledby="inside-h">
+      <div class="wrap">
+        <div class="sec-head"><div><h2 id="inside-h">받는 것</h2><span class="sub">숫자 한 줄로 시작해 항목마다 근거와 고칠 방향까지. 고친 뒤 다시 돌리면 바뀐 것만 위로 올라옵니다.</span></div><span class="cap">예시 화면 · 가상의 예약 서비스</span></div>
+        <div class="mosaic">
+          <figure><figcaption><b>숫자 한 줄</b><span>79항목 중 통과·문제·미확인, 그리고 출시를 막는 것</span></figcaption><div class="frame"><img src="img/in-head.jpg" width="960" height="600" loading="lazy" alt="예시 리포트 머리. 79항목, 통과 26, 문제 49, 해당없음 0, 미확인 4, 출시를 막는 문제 36이 칸마다 적혀 있다."></div></figure>
+          <figure><figcaption><b>근거와 재검토 메모</b><span>파일·줄로 짚고, 다시 본 판정에는 이유를 남깁니다</span></figcaption><div class="frame"><img src="img/in-evidence.jpg" width="960" height="600" loading="lazy" alt="펼친 항목 하나. 재검토 메모 아래 근거에 app/api/payments/webhook/route.ts:14 와 lib/bookings.ts:52 가 적혀 있고 고칠 방향이 이어진다."></div></figure>
+          <figure><figcaption><b>출시 경로 10묶음</b><span>막힘·일부·열림과 먼저 풀 묶음</span></figcaption><div class="frame"><img src="img/in-gates.jpg" width="960" height="600" loading="lazy" alt="출시 경로 묶음 타일. G4 배포 실물이 먼저 표시와 함께 강조되고 G5·G6·G9 는 일부, G7·G8 은 막힘이다."></div></figure>
+          <figure><figcaption><b>진행과 남은 시간</b><span>질문지 8개 중 어디쯤인지</span></figcaption><div class="frame"><img src="img/in-progress.jpg" width="960" height="600" loading="lazy" alt="분석 진행 화면. 3/8, 지금 C 환경·배포를 읽는 중, 남은 시간 약 19분, 질문지 타일 넷 중 셋이 끝."></div></figure>
+          <figure><figcaption><b>달라진 것만</b><span>다시 진단하면 바뀐 판정을 맨 위에</span></figcaption><div class="frame"><img src="img/in-diff.jpg" width="960" height="600" loading="lazy" alt="지난 진단과 달라진 것 표. 1.3, 3.4, 6.4, 12.1 네 항목이 문제에서 통과로 바뀌었다."></div></figure>
+          <figure><figcaption><b>만들어진 과정</b><span>기준 커밋, 질문지별 소요, 공개 시각</span></figcaption><div class="frame"><img src="img/in-process.jpg" width="960" height="600" loading="lazy" alt="리포트가 만들어진 과정. 질문지별 소요 시간과 합계 31분, 신청부터 리포트 공개까지의 기록 다섯 줄."></div></figure>
+          <a class="btn glass more" href="https://vamuri.vercel.app/login">내 저장소로 받아 보기 ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="report" aria-labelledby="report-h">
+      <div class="wrap">
+        <div class="sec-head"><div><h2 id="report-h">실제 리포트</h2><span class="sub">예약형 서비스 한 곳의 출시 전 진단. 권한 검사, 비밀번호 해시, 입력 검증, 중복 예약 방지는 통과였습니다. 막고 있던 것은 코드가 아니었습니다.</span></div><a class="btn primary" href="https://vamuri.vercel.app/login">내 저장소로 받아 보기</a></div>
+        <div class="stats">
+          <div class="stat"><b>79 → <em>40</em></b><span>79항목 중 출시를 막고 있던 것</span></div>
+          <div class="stat"><b><em>0</em></b><span>접근 제어 · 동시성에서 나온 문제</span></div>
+          <div class="stat"><b>설정 <em>1</em>줄</b><span>가장 먼저 고칠 것 — 없으면 첫 손님부터 전원 403</span></div>
+        </div>
+        <div class="tiles g2">
+          <article class="tile find">
+            <div class="top"><span class="mono">발견 6.4 · 운영 설정 정합</span><span class="vtag x">차단</span></div>
+            <h3>배포돼도 고객은 아무것도 못 합니다.<br>한 줄이 없어서.</h3>
+<div class="code"><span class="cm"># 운영 배포 설정 — 이름은 바꿔 적었습니다</span>
+web:
+  SITE_URL: ${SITE_URL:?}
+  ADMIN_ORIGIN: ${ADMIN_ORIGIN:?}
+<span class="ghost">  APP_ORIGIN: ${APP_ORIGIN:?}      # ← 이 한 줄이 없다</span>  API_URL: http://api:8080</div>
+            <p>웹은 이 값을 요청의 출처로 보내고, API 는 허용 목록에 없는 출처를 403 으로 막습니다. 부팅 검사가 localhost 를 거부해 우회도 안 됩니다. 가입·로그인·예약이 전부 막힙니다.</p>
+            <div class="vs"><div class="no"><b>URL 스캐너</b>보안 헤더 A 등급. 이 줄은 저장소 안에 있어 보이지 않음</div><div class="yes"><b>vamuri</b>저장소·배포 설정·부팅 검사를 함께 읽어 발견. 조치는 한 줄, 영향은 전 고객</div></div>
+          </article>
+          <article class="tile find">
+            <div class="top"><span class="mono">발견 13.2 · 약관</span><span class="vtag x">차단</span></div>
+            <h3>결제는 되는데, 약관은<br>"결제를 제공하지 않습니다".</h3>
+<div class="code"><span class="cm"># 공개될 약관 본문 — 줄여 옮김</span>
+제2조 … 회사는 예약과 결제를
+<span class="ghost">  제공하지 않습니다.   # ← 결제는 이미 동작 중</span><span class="cm"># 사업자 정보 — "[미정: 상호]" · "[미정: 사업자등록번호]" …</span></div>
+            <p>결제 기능은 코드에 있고 화면에서 돌아가는데, 약관은 결제를 제공하지 않는다고 적혀 있고 사업자 정보 자리는 비어 있습니다. 청약철회·환급 조항도 없습니다.</p>
+            <div class="vs"><div class="no"><b>URL 스캐너</b>약관 페이지가 "있다" 까지만 봄</div><div class="yes"><b>vamuri</b>약관 본문과 결제 코드를 대조해 어디가 어긋났는지 줄 번호로</div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="how" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="sec-head"><div><h2 id="how-h">어떻게</h2><span class="sub">로그인부터 리포트까지 다섯 단계. 고친 뒤 다시 돌리면 달라진 항목만 보여 줍니다.</span></div></div>
+        <div class="track" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="tiles g5 steps">
+          <div class="tile step-tile"><span class="n">01</span><h3>GitHub 로 로그인</h3><p>비밀번호도 가입 절차도 없습니다. 아이디와 이메일만 받고 저장소 권한은 요청하지 않습니다.</p><span class="t">1분</span></div>
+          <div class="tile step-tile"><span class="n">02</span><h3>저장소 주소</h3><p>공개면 주소만. 비공개면 계정 <code>gayhoon</code> 을 Read 로 초대하고 체크.</p><span class="t">1분</span></div>
+          <div class="tile step-tile"><span class="n">03</span><h3>읽기 전용 분석</h3><p>기준 커밋을 고정하고 질문지 8개를 차례로 읽습니다. 브랜치·커밋·파일을 만들지 않습니다.</p><span class="t">30~40분</span></div>
+          <div class="tile step-tile"><span class="n">04</span><h3>판정 검토</h3><p>틀린 판정을 고치고, 고친 이유를 리포트에 "재검토" 로 남긴 뒤 공개합니다.</p><span class="t">1영업일 안</span></div>
+          <div class="tile step-tile feat"><span class="n">05</span><h3>리포트 · 재진단</h3><p>막는 것부터 근거와 푸는 순서. 고친 뒤 다시 진단하면 달라진 것만.</p><span class="t">언제든</span></div>
+        </div>
+        <div class="pkg">
+          <h3>출시 패키지라면 그다음</h3>
+          <div class="tiles g3">
+            <div class="tile"><h3>우선순위 회의 60분</h3><p>차단 / 권장 / 후순위를 같이 정하고, 모듈별로 고치기와 다시 만들기를 가릅니다.</p></div>
+            <div class="tile"><h3>수정 — 카드 1장 = PR 1개</h3><p>UI 는 그대로, 설정·배포·결제·법규·운영 쪽만. 머지는 여러분이 합니다.</p></div>
+            <div class="tile"><h3>운영 문서 셋과 권한 회수 확인서</h3><p>런북 · 외부 계정 대장 · 시크릿 대장. 끝나면 읽기 권한 회수를 확인합니다.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="price" aria-labelledby="price-h">
+      <div class="wrap">
+        <div class="sec-head"><div><h2 id="price-h">가격</h2><span class="sub">지금은 무료 기간입니다. 서비스를 다듬는 기간이라 산출물은 정가와 같고, 유료 전환일은 최소 30일 전에 메일로 알립니다.</span></div></div>
+        <div class="tiles g4 price">
+          <div class="tile"><span class="name">무료 진단</span><p>준비물 표 + 출시 경로 10묶음 판정, 1쪽. 신청 뒤 48시간 안.</p><div class="amt"><b>0원</b><span class="now">무료 · 계속</span></div></div>
+          <div class="tile feat"><span class="name">상세 진단</span><p>79항목 리포트 + 수정 제안 + 회의 60분. 분석 30~40분, 검토 1영업일. 주 2팀.</p><div class="amt"><b>390,000원</b><span class="now">지금 무료</span></div></div>
+          <div class="tile"><span class="name">출시 패키지</span><p>상세 진단 + 배포·설정·관측·목업·로그 수정 + 외부 동행 + 운영 문서 셋. 2~4주.</p><div class="amt"><b>2,900,000원~</b><span class="now">선착순 3팀 무료 · 익명 사례 동의</span></div></div>
+          <div class="tile"><span class="name">월 유지보수</span><p>출시 뒤 운영 점검과 수정.</p><div class="amt"><b>390,000원/월</b><span class="later">유료 전환 뒤</span></div></div>
+        </div>
+        <p class="opts">옵션(정가) — 결제 연동 +1,500,000 · 법규 문안 초안 +500,000 · 인증 공급자 연동 +300,000/종. 무료 기간 신청자는 전환 뒤 첫 결제 30%.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="trust" aria-labelledby="trust-h">
+      <div class="wrap">
+        <div class="sec-head"><div><h2 id="trust-h">약속</h2><span class="sub">코드를 맡기기 전에 알아야 할 것.</span></div></div>
+        <ul class="promise">
+          <li><span><b>읽기 전용</b> — 진단 중 브랜치·커밋·파일을 만들지 않습니다.</span></li>
+          <li><span><b>복제본은 전달 뒤 삭제</b> — 리포트를 전달하면 바로, 늦어도 7일 안에 지웁니다.</span></li>
+          <li><span><b>비밀유지약정</b> — 비공개 저장소는 원하시면 진단 전에 먼저 씁니다(메일로 요청).</span></li>
+          <li><span><b>코드가 내 기계를 떠나지 않는 선택지</b> — 자가 실행 키트로 질문지와 안내문을 드리고, 분석은 여러분 기계에서.</span></li>
+          <li><span><b>UI 는 그대로</b> — 수정은 설정·배포·결제·법규·운영 쪽입니다.</span></li>
+          <li><span><b>분석 도구와 전송 범위 공개</b> — 무엇이 어디로 가는지 처리방침에 적어 둡니다.</span></li>
+          <li><span><b>참고 자료이지 법률 자문이 아닙니다</b> — 법규 항목은 확인해야 할 질문 목록을 같이 드립니다.</span></li>
+          <li><span><b>결과물은 여러분 것</b> — 저장소에 들어간 변경은 여러분 소유, 사례는 별도 동의·익명으로만.</span></li>
         </ul>
-        <div class="cols four">
-          <div class="cell"><div class="k">LOVABLE</div><p>Supabase RLS 가 전부 켜져 있나요? 공개 키와 서비스 키가 섞여 있지 않나요?</p></div>
-          <div class="cell"><div class="k">CURSOR / CLAUDE CODE</div><p>운영 설정 파일이 부팅 검사와 맞나요? 테스트는 한 번이라도 CI 에서 완주했나요?</p></div>
-          <div class="cell"><div class="k">BOLT / V0</div><p>결제 웹훅과 환불을 누가 처리하나요?</p></div>
-          <div class="cell"><div class="k">REPLIT</div><p>시크릿이 저장소 히스토리에 없나요?</p></div>
+        <div class="tiles g4 ask">
+          <div class="tile"><span class="id">LOVABLE</span><p>Supabase RLS 가 전부 켜져 있나요? 공개 키와 서비스 키가 섞여 있지 않나요?</p></div>
+          <div class="tile"><span class="id">CURSOR · CLAUDE CODE</span><p>운영 설정 파일이 부팅 검사와 맞나요? 테스트는 한 번이라도 CI 에서 완주했나요?</p></div>
+          <div class="tile"><span class="id">BOLT · V0</span><p>결제 웹훅과 환불을 누가 처리하나요?</p></div>
+          <div class="tile"><span class="id">REPLIT</span><p>시크릿이 저장소 히스토리에 없나요?</p></div>
         </div>
       </div>
     </section>
 
-    <section id="faq" aria-labelledby="faq-h">
+    <section class="sec" id="faq" aria-labelledby="faq-h">
       <div class="wrap">
-        <div class="sec-head"><span class="idx">06 / FAQ</span><div><h2 id="faq-h">자주 묻는 것</h2></div></div>
+        <div class="sec-head"><div><h2 id="faq-h">FAQ</h2><span class="sub">자주 묻는 것.</span></div></div>
         <div class="faq">
-          <details><summary>코드를 꼭 보여줘야 하나요?</summary><p>아니요. 읽기 권한을 주시면 더 깊이 보지만, "코드 비공개" 를 택하면 질문지와 안내문을 드리고 분석은 여러분 기계에서 돌립니다. 어느 쪽이든 비밀유지약정이 먼저입니다.</p></details>
-          <details><summary>AI 가 하나요?</summary><p>네, AI 가 읽고 사람이 판정·검수합니다. 어떤 도구에 무엇이 전송되는지 처리방침에 적어 두고, 입력을 학습에 쓰지 않는 조건의 서비스를 씁니다.</p></details>
-          <details><summary>다른 "출시 점검" 서비스와 뭐가 다른가요?</summary><p>점검 항목은 비슷합니다. 다른 건 범위입니다 — 결제사 계정 설정, 인증 공급자 연동, 배포 실물, 법규 문안처럼 보통 "별도 견적" 으로 빠지는 것을 기본 범위에 넣습니다. 그리고 항목마다 근거(파일·줄)와 미확인 항목의 확인 방법을 드립니다.</p></details>
+          <details><summary>코드를 꼭 보여 줘야 하나요?</summary><p>아니요. 저장소 주소(비공개면 읽기 권한 초대)를 주시면 더 깊이 보지만, 코드 비공개가 원칙이면 자가 실행 키트로 질문지와 안내문을 드리고 분석은 여러분 기계에서 돌립니다. 메일로 요청해 주세요.</p></details>
+          <details><summary>코드는 어디로 가나요?</summary><p>운영자 환경에 복제해 읽기만 하고, 리포트 전달 뒤 바로(늦어도 7일 안) 지웁니다. 분석 도구로 전송되는 범위(파일 경로·줄 번호·짧은 인용)와 국외 이전은 개인정보 처리방침에 적어 두었고, 입력을 학습에 쓰지 않는 조건의 서비스를 씁니다. 비밀 값과 제3자 개인정보는 리포트에 싣지 않습니다.</p></details>
+          <details><summary>보안 스캐너와 뭐가 다른가요?</summary><p>URL 스캐너는 주소에서 보이는 것(보안 헤더·HTTPS·노출된 키)을 30초 만에 봅니다. 저희는 저장소와 배포 설정과 약관을 함께 읽어 결제사 심사·환불 규정·운영 설정·관측·백업처럼 주소로는 안 보이는 것을 출시 순서대로 묶습니다. 항목마다 근거(파일·줄)와, 미확인 항목은 확인 방법을 드립니다.</p></details>
           <details><summary>무료 기간이 끝나면요?</summary><p>유료 전환일을 최소 30일 전에 메일로 알립니다. 진행 중인 건은 무료로 끝내고, 무료 기간 신청자는 첫 결제 30% 혜택을 받습니다.</p></details>
           <details><summary>결제사(PG) 계약도 해 주나요?</summary><p>계약·서류는 대표자가 직접 해야 하지만, 서류 준비·심사용 사이트 요건(약관·처리방침·사업자 정보가 떠 있는 실 URL)·어댑터·웹훅·환불 구현은 저희가 합니다.</p></details>
           <details><summary>법률 자문인가요?</summary><p>아닙니다. 약관·처리방침은 초안과 함께 확인해야 할 질문 목록을 드립니다. 변호사 검토를 원하시면 그 목록을 그대로 쓸 수 있고, 최종 판단과 책임은 여러분에게 있습니다.</p></details>
           <details><summary>어떤 스택이든 되나요?</summary><p>웹 서비스면 됩니다. 확인 방법은 스택 중립으로 쓰여 있고, 처음 보는 스택은 저장소 지도를 먼저 만듭니다. 앱 스토어 심사는 범위 밖입니다.</p></details>
-          <details><summary>얼마나 걸리나요?</summary><p>상세 진단 2~3영업일(주 2팀, 대기열 안내). 출시 패키지 2~4주 — 외부 의존(PG 심사·계정)이 길어지면 그만큼 늘어나고, 그 전에 끝낼 수 있는 배포·설정부터 합니다.</p></details>
+          <details><summary>얼마나 걸리나요?</summary><p>분석은 보통 30~40분, 판정 검토는 1영업일 안입니다. 출시 패키지는 2~4주 — 외부 의존(결제사 심사·계정)이 길어지면 그만큼 늘어나고, 그 전에 끝낼 수 있는 배포·설정부터 합니다.</p></details>
           <details><summary>수정하면 화면이 바뀌나요?</summary><p>UI 는 그대로 둡니다. 바꾸는 건 설정·배포·결제·법규·운영 쪽입니다. 모든 변경은 PR 로 가고 여러분이 머지합니다.</p></details>
           <details><summary>결과물은 누구 것인가요?</summary><p>여러분 저장소에 들어간 변경은 여러분 것입니다. 저희 체크리스트와 절차는 저희 것이고, 사례로 쓰는 건 별도 동의가 있을 때만, 익명으로만 합니다.</p></details>
         </div>
@@ -375,25 +558,33 @@
 
     <section class="end" id="apply" aria-labelledby="apply-h">
       <div class="wrap">
-        <h2 id="apply-h">출시 전에<br>한 번 봐 드립니다.</h2>
-        <p class="lead">폼은 5분. 48시간 안에 무료 진단 결과 또는 대기 순번을 메일로 보냅니다. 지금은 무료 기간입니다.</p>
-        <div class="actions">
-          <a class="btn lime" href="https://docs.google.com/forms/d/e/1FAIpQLScJYMfTkmPiyMdvxubsUvAAIMsAf2XRoNiVL3lmA7qV7QwrUw/viewform">무료 진단 신청 <span class="arr">→</span></a>
-          <a class="btn line" href="mailto:gayhoon@naver.com">메일로 문의</a>
+        <div class="banner">
+          <div class="inner">
+            <div class="meta"><span class="badge">지금은 무료 기간</span></div>
+            <h2 class="display" id="apply-h">출시 전에<br><span class="n">한 번</span> 봐 드립니다.</h2>
+            <p>GitHub 로그인 한 번, 저장소 주소 하나. 분석 30~40분, 검토 1영업일.</p>
+            <div class="acts"><a class="btn primary lg" href="https://vamuri.vercel.app/login">GitHub 로 무료 진단 시작</a><a class="btn lg" href="mailto:gayhoon@naver.com">메일로 문의</a></div>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="site">
+  <footer>
     <div class="wrap">
-      <p>VAMURI — vibe 로 만든 것을 마무리합니다. 운영 안계훈(개인 운영 · 사업자 등록 예정 — 등록 뒤 상호·사업자등록번호·통신판매업 신고번호를 여기 적습니다) · 문의 <a href="mailto:gayhoon@naver.com">gayhoon@naver.com</a></p>
-      <ul>
-        <li><a href="https://docs.google.com/document/d/1FtNx4bceGcD-CmRkZzOC4W0bQDxu0_m1QTPOPtFfCPM/edit?usp=sharing">개인정보 처리방침</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#top">TOP ↑</a></li>
-      </ul>
-      <p style="margin-top:14px">진단 결과는 출시 준비를 돕는 참고 자료이며 법률·세무 자문이 아닙니다. © 2026 VAMURI</p>
+      <div class="row">
+        <div>
+          <p><b style="color:var(--fg)">vamuri</b> — vibe 로 만든 것을 마무리합니다.</p>
+          <p>운영 안계훈(개인 운영 · 사업자 등록 예정 — 등록 뒤 상호·사업자등록번호·통신판매업 신고번호를 여기 적습니다) · 문의 <a href="mailto:gayhoon@naver.com">gayhoon@naver.com</a></p>
+          <p>진단 결과는 출시 준비를 돕는 참고 자료이며 법률·세무 자문이 아닙니다. © 2026 VAMURI</p>
+        </div>
+        <ul>
+          <li><a href="https://docs.google.com/document/d/1FtNx4bceGcD-CmRkZzOC4W0bQDxu0_m1QTPOPtFfCPM/edit?usp=sharing">개인정보 처리방침</a></li>
+          <li><a href="https://vamuri.vercel.app/terms">이용 조건</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#top">처음으로 ↑</a></li>
+        </ul>
+      </div>
     </div>
   </footer>
 </body>
