@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/space-grotesk@5/wght.css">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Article","headline":"바이브코딩 앱 출시 전 체크리스트 — 막히는 곳 10가지","datePublished":"2026-10-25","dateModified":"2026-10-25","inLanguage":"ko","author":{"@type":"Person","name":"안계훈"},"publisher":{"@type":"Organization","name":"vamuri","url":"https://gayhoon.github.io/vamuri-site/"},"mainEntityOfPage":"https://gayhoon.github.io/vamuri-site/guides/launch-checklist.html"}
+  {"@context":"https://schema.org","@type":"Article","headline":"바이브코딩 앱 출시 전 체크리스트 — 막히는 곳 10가지","datePublished":"2026-10-25","dateModified":"2026-10-26","inLanguage":"ko","author":{"@type":"Person","name":"안계훈"},"publisher":{"@type":"Organization","name":"vamuri","url":"https://gayhoon.github.io/vamuri-site/"},"mainEntityOfPage":"https://gayhoon.github.io/vamuri-site/guides/launch-checklist.html"}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -63,7 +63,7 @@
     <article>
       <p class="meta">가이드 · 2026-10-25 · 안계훈</p>
       <h1>바이브코딩 앱 출시 전 체크리스트 — 막히는 곳 10가지</h1>
-      <p class="lead">코드는 다 짰는데 출시가 안 될 때, 막고 있는 건 대부분 코드 바깥입니다. 예약형 서비스 하나를 79개 항목으로 점검했더니 40개가 출시를 막고 있었고, 그중 권한·동시성 같은 보안 코드 문제는 0개였습니다.</p>
+      <p class="lead">코드는 다 짰는데 출시가 안 될 때, 막고 있는 건 대부분 코드 바깥입니다.</p>
       <div class="answer"><b>요약</b><br>배포 실물부터 만드세요. 결제사 심사, 웹훅 주소, 소셜 로그인 콘솔, 메일 도메인 인증이 전부 실 도메인을 요구합니다. 그다음 결제, 환불 규정, 운영 설정, 로그인 경로, 약관, 관측·백업 순서로 확인하면 됩니다.</div>
 
       <h2><span class="n">01</span>배포 실물 — 도메인·HTTPS·헬스체크</h2>
@@ -80,7 +80,7 @@
       <div class="check"><b>10분 확인</b>세 곳의 환불 기한·수수료를 표로 나란히 적어 보기 · 환불을 실제로 누가 어떤 화면에서 처리하는가</div>
 
       <h2><span class="n">04</span>운영 설정 — 빠진 한 줄</h2>
-      <p>코드가 읽는 환경변수가 배포 설정에 빠져 있는데도 앱이 그대로 뜨면, 운영에서만 이상하게 동작합니다. 설정 한 줄 때문에 모든 요청이 403이 되는 구성도 있습니다.</p>
+      <p>코드가 읽는 환경변수가 배포 설정에 빠져 있는데도 앱이 그대로 뜨면, 운영에서만 이상하게 동작합니다.</p>
       <div class="check"><b>10분 확인</b><code>.env.example</code> 의 키와 배포 설정의 키를 한 줄씩 대조 · 필수 값이 없으면 부팅을 멈추게 하기 · 테스트용 결제·시드가 운영에서 꺼지는가</div>
 
       <h2><span class="n">05</span>가입·로그인 경로</h2>
