@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>앱스토어·구글 플레이 심사, 처음 내기 전에 볼 12가지 | vamuri</title>
+  <meta name="description" content="바이브코딩으로 만든 앱이 App Store·Google Play 심사에서 자주 돌아오는 이유 12가지와 제출 전에 저장소에서 확인하는 방법. 데모 계정, 앱 안 계정 삭제, 애플 로그인(4.8), 권한 문구, 개인정보 라벨, 인앱 결제, 비공개 테스트 12명·14일까지.">
+  <link rel="canonical" href="https://gayhoon.github.io/vamuri-site/guides/app-store-review.html">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="vamuri">
+  <meta property="og:title" content="앱스토어·구글 플레이 심사, 처음 내기 전에 볼 12가지">
+  <meta property="og:description" content="반려 한 번이면 며칠이 다시 시작됩니다. 제출 전에 저장소에서 확인할 12가지.">
+  <meta property="og:url" content="https://gayhoon.github.io/vamuri-site/guides/app-store-review.html">
+  <meta property="og:image" content="https://gayhoon.github.io/vamuri-site/og.png">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#070a17">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/space-grotesk@5/wght.css">
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "Article", "headline": "앱스토어·구글 플레이 심사, 처음 내기 전에 볼 12가지", "datePublished": "2026-10-26", "dateModified": "2026-10-26", "inLanguage": "ko", "author": {"@type": "Person", "name": "안계훈"}, "publisher": {"@type": "Organization", "name": "vamuri", "url": "https://gayhoon.github.io/vamuri-site/"}, "mainEntityOfPage": "https://gayhoon.github.io/vamuri-site/guides/app-store-review.html"}
+  </script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "앱스토어 심사에서 가장 흔한 반려 이유는 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "커뮤니티에 올라온 반려 사례를 모아 보면 심사자가 앱에 들어가지 못하는 경우(로그인에 문자 인증이 필요하거나 데모 계정이 없음, 가이드라인 2.1), 앱 안에서 계정을 삭제할 수 없는 경우(5.1.1(v)), 카카오·구글 로그인만 있고 동등한 로그인 수단이 없는 경우(4.8)가 자주 나옵니다."}}, {"@type": "Question", "name": "카카오 로그인만 있으면 애플 로그인을 꼭 넣어야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "2024년 개정 뒤 가이드라인 4.8은 Sign in with Apple을 이름으로 요구하지 않고, 이름·이메일만 받고 이메일을 숨길 수 있으며 동의 없이 광고 추적을 하지 않는 동등한 로그인 수단을 함께 두라고 합니다. 카카오·구글 로그인은 보통 이 조건을 다 채우지 못해서, 실무에서는 애플 로그인을 함께 넣는 것이 안전합니다."}}, {"@type": "Question", "name": "구글 플레이에 처음 앱을 낼 때 따로 준비할 것이 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "2023년 11월 13일 이후 만든 개인 개발자 계정은 비공개 테스트에 12명 이상이 14일 연속 참여한 뒤에야 프로덕션을 신청할 수 있습니다. 또 2026년 8월 31일부터 새 앱과 업데이트는 Android 16(API 36) 이상을 대상으로 빌드해야 합니다."}}]}
+  </script>
+  <style>
+    :root { --bg:#070a17; --tile:#111a33; --sunk:#0a0f20; --hair:rgba(255,255,255,.07); --hair-2:rgba(255,255,255,.13); --fg:#f4f5fb; --fg-2:#b3b9cd; --fg-3:#8f96ad; --accent:#b68cff; --accent-btn:#7c3aed; --accent-edge:#4c1d95; --accent-soft:rgba(124,58,237,.22);
+      --sans:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif; --display:"Space Grotesk Variable","Space Grotesk","Pretendard Variable",sans-serif; }
+    * { box-sizing:border-box; }
+    html { background:var(--bg); }
+    body { margin:0; background:var(--bg); color:var(--fg); font-family:var(--sans); font-size:17px; line-height:1.75; word-break:keep-all; -webkit-font-smoothing:antialiased; }
+    a { color:var(--accent); }
+    :focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+    .top { border-bottom:1px solid var(--hair); }
+    .top .in { max-width:760px; margin:0 auto; padding:0 20px; height:60px; display:flex; align-items:center; justify-content:space-between; }
+    .brand { display:inline-flex; align-items:center; gap:10px; color:var(--fg); font-weight:700; text-decoration:none; }
+    .mark { width:28px; height:28px; background:var(--accent-btn); box-shadow:inset 0 -2px 0 var(--accent-edge); color:#fff; display:grid; place-items:center; font-family:var(--display); }
+    .btn { display:inline-flex; align-items:center; height:40px; padding:0 14px 3px; background:var(--accent-btn); color:#fff; font-weight:700; text-decoration:none; box-shadow:inset 0 -3px 0 var(--accent-edge); }
+    main { max-width:760px; margin:0 auto; padding:56px 20px 40px; }
+    .meta { color:var(--fg-3); font-size:.9rem; }
+    h1 { font-size:clamp(1.9rem,5vw,2.6rem); line-height:1.25; letter-spacing:-.03em; margin:12px 0 18px; }
+    h2 { font-size:1.4rem; letter-spacing:-.02em; margin:52px 0 10px; display:flex; gap:12px; align-items:baseline; }
+    h2 .n { font-family:var(--display); color:var(--accent); }
+    .lead { font-size:1.12rem; color:var(--fg-2); }
+    .answer { background:var(--tile); border-left:4px solid var(--accent); padding:16px 20px; margin:24px 0; }
+    p, li { color:var(--fg-2); } b, strong { color:var(--fg); }
+    ul { padding-left:1.2em; } li { margin:4px 0; }
+    .check { background:var(--sunk); outline:1px solid var(--hair); padding:14px 18px; margin:14px 0; }
+    .check b { display:block; margin-bottom:4px; }
+    code { font-family:ui-monospace,Menlo,monospace; font-size:.88em; background:rgba(255,255,255,.07); padding:.1em .35em; color:var(--fg); }
+    .cta { margin:56px 0 0; background:var(--tile); outline:1px solid var(--hair-2); outline-offset:4px; padding:26px; }
+    .cta h2 { margin-top:0; }
+    footer { max-width:760px; margin:0 auto; padding:24px 20px 48px; color:var(--fg-3); font-size:.85rem; border-top:1px solid var(--hair); }
+  </style>
+</head>
+<body>
+  <header class="top"><div class="in"><a class="brand" href="../"><span class="mark">v</span>vamuri</a><a class="btn" href="https://vamuri.vercel.app/login">무료 진단</a></div></header>
+  <main>
+    <article>
+      <p class="meta">가이드 · 2026-10-26 · 안계훈 · App Store 심사 가이드라인 2026-10-16 판 기준</p>
+      <h1>앱스토어·구글 플레이 심사, 처음 내기 전에 볼 12가지</h1>
+      <p class="lead">앱은 다 만들었는데, 심사에서 돌아옵니다. 반려 한 번이면 며칠이 다시 시작되고, 사유는 매번 다르게 옵니다. 그런데 커뮤니티에 올라온 반려 사례를 모아 보면 자주 나오는 자리는 정해져 있습니다.</p>
+      <div class="answer"><b>요약.</b> 가장 흔한 반려는 코드 품질이 아니라 <b>심사자가 앱을 써 보지 못하는 것</b>에서 나옵니다 — 들어갈 수 없거나(데모 계정), 계정을 지울 수 없거나(앱 안 삭제), 로그인 수단이 모자라거나(4.8). 아래 12가지는 모두 제출 전에 저장소에서 확인할 수 있습니다.</div>
+      <h2><span class="n">01</span>심사자가 앱에 들어갈 수 있는가 — 데모 계정</h2>
+      <p>로그인이 필요한 앱인데 심사자가 들어가지 못하면, 기능을 하나도 보지 못한 채 <b>가이드라인 2.1(앱 완성도)</b>로 돌아옵니다. 문자 인증번호, 이메일 인증, 소셜 로그인만 있는 앱이 특히 그렇습니다. 심사자는 해외에서 접속하고, 심사 기간 내내 서버가 켜져 있어야 합니다.</p>
+      <div class="check"><b>저장소에서 확인</b>로그인이 필수인지(첫 화면이 로그인 강제인지), 인증번호 없이 들어가는 심사용 계정 경로가 있는지, 서버가 해외 접속이나 특정 IP 를 막지 않는지. 제출할 때 App Store Connect 의 심사 노트(Notes for Review)에 데모 계정과 확인 순서를 적습니다.</div>
+      <h2><span class="n">02</span>앱 안에서 계정을 삭제할 수 있는가</h2>
+      <p>계정을 만들 수 있는 앱은 <b>앱 안에서 계정 삭제</b>도 할 수 있어야 합니다(<b>App Store 5.1.1(v)</b>). 비활성화만으로는 안 되고 계정과 관련 개인정보를 지워야 하며, "고객센터로 문의"로만 안내하면 반려됩니다. 웹 링크는 삭제 페이지로 바로 연결될 때만 됩니다. 애플 로그인을 쓴다면 삭제할 때 애플 토큰도 해지(revoke)합니다.</p>
+      <p><b>Google Play</b>는 앱 안 경로에 더해, 앱을 설치하지 않고도 삭제를 요청할 수 있는 <b>웹 주소</b>를 데이터 보안(Data safety) 양식에 적게 합니다.</p>
+      <div class="check"><b>저장소에서 확인</b>설정·내 정보 화면의 탈퇴 버튼 → 서버 삭제 라우트 → 실제 삭제 쿼리, 웹 삭제 페이지 주소, <code>appleid.apple.com/auth/revoke</code> 호출.</div>
+      <h2><span class="n">03</span>카카오·구글 로그인과 가이드라인 4.8</h2>
+      <p>소셜 로그인으로 계정을 만들게 하면, <b>동등한 로그인 수단</b>도 함께 둬야 합니다(<b>4.8</b>). 2024년 개정 뒤 문구는 애플 로그인을 이름으로 요구하지 않고 세 가지 조건 — 이름과 이메일만 받을 것, 이메일을 숨길 수 있을 것, 동의 없이 광고 목적의 활동을 모으지 않을 것 — 을 듭니다. 카카오·네이버·구글 로그인은 보통 이 조건을 다 채우지 못해서, 실무에서는 <b>Sign in with Apple</b>을 함께 넣는 쪽이 안전합니다.</p>
+      <div class="check"><b>저장소에서 확인</b><code>expo-apple-authentication</code> · <code>sign_in_with_apple</code> · <code>AuthenticationServices</code> 같은 애플 로그인 의존성이, 카카오·구글 로그인 의존성과 함께 있는지. 애플이 숨긴 이메일(<code>privaterelay.appleid.com</code> · <code>private.icloud.com</code>)을 서버가 받아들이는지.</div>
+      <h2><span class="n">04</span>권한 요청 문구</h2>
+      <p>카메라·사진·위치·마이크처럼 보호된 기능에 접근하면, 왜 쓰는지 적은 문구가 있어야 합니다. 문구가 없으면 앱이 그 자리에서 멈춰 2.1로, "카메라가 필요합니다"처럼 막연하면 개인정보 항목(5.1.1)으로 돌아올 수 있습니다. 쓰지 않는 권한은 선언하지 않습니다.</p>
+      <p>Google Play 는 문자·통화 기록·모든 파일 접근·설치된 앱 목록·사진과 동영상 같은 <b>민감 권한</b>을 핵심 기능일 때만 허용하고, 따로 신고하게 합니다.</p>
+      <div class="check"><b>저장소에서 확인</b>코드가 실제로 요청하는 권한 ↔ <code>app.json</code> 의 <code>ios.infoPlist</code>·플러그인 권한 문구 ↔ <code>AndroidManifest.xml</code>·<code>android.permissions</code>. 라이브러리가 몰래 더하는 권한(이미지 선택·알림·위치 플러그인)도 합친 결과로 봅니다.</div>
+      <h2><span class="n">05</span>개인정보처리방침과 개인정보 라벨</h2>
+      <p>개인정보처리방침은 스토어와 <b>앱 안</b> 양쪽에서 열려야 합니다(<b>5.1.1(i)</b>). 그리고 App Store 의 <b>개인정보 라벨(App Privacy)</b>, Google Play 의 <b>데이터 보안 양식</b>은 앱이 쓰는 SDK(분석·크래시·광고·로그인)가 모으는 데이터까지 정확히 적어야 합니다. 실제와 다르면 나중에 앱이 내려갈 수 있습니다.</p>
+      <div class="check"><b>저장소에서 확인</b>앱 안 처리방침 링크와 그 주소가 살아 있는지, 의존성 목록(<code>package.json</code>·<code>Podfile.lock</code>·<code>pubspec.lock</code>)에서 데이터를 모으는 SDK 목록, 그 목록이 방침과 라벨 답안에 맞는지.</div>
+      <h2><span class="n">06</span>iOS 개인정보 매니페스트</h2>
+      <p>2024년 5월 1일부터, 앱이나 SDK 가 정해진 API(사용자 기본값 저장, 파일 시각, 부팅 시각, 디스크 용량 등)를 쓰면 이유를 적은 <code>PrivacyInfo.xcprivacy</code> 가 있어야 업로드됩니다. 오래된 SDK·플러그인 버전이 흔한 원인입니다.</p>
+      <div class="check"><b>저장소에서 확인</b><code>ios/**/PrivacyInfo.xcprivacy</code> 또는 Expo <code>ios.privacyManifests</code>, 그리고 Firebase·로그인·푸시 SDK 버전이 매니페스트를 갖춘 버전인지.</div>
+      <h2><span class="n">07</span>미완성 흔적과 '웹사이트를 감싼 앱'</h2>
+      <p>"준비 중" 화면, 자리 표시 글, 개발 서버 주소, 동작하지 않는 버튼은 완성도(<b>2.1</b>)로 돌아옵니다. 웹사이트를 그대로 감싸기만 한 앱은 <b>최소 기능(4.2)</b>으로 돌아옵니다. 2026년 10월 16일 개정에서는 심사 때 숨겨 두었다가 승인 뒤 켜는 기능을 금지하는 <b>2.5.19</b>가 새로 생겼습니다.</p>
+      <div class="check"><b>저장소에서 확인</b>화면 문자열에서 <code>TODO</code>·<code>Lorem</code>·<code>준비 중</code>·<code>테스트</code>, 운영 빌드의 API 주소, 첫 화면이 전체 화면 웹뷰 하나인지, 원격 설정으로 화면이 바뀌는 분기.</div>
+      <h2><span class="n">08</span>디지털 상품은 인앱 결제로</h2>
+      <p>기능 잠금 해제, 유료 콘텐츠, 구독, 포인트 같은 <b>디지털 상품</b>은 애플 인앱 결제(<b>3.1.1</b>)와 Google Play 결제로 팔아야 합니다. 실물 상품이나 오프라인 서비스(예약, 배송 등)는 일반 결제사(PG)로 팔아도 됩니다. 앱 안에서 "웹에서 결제하면 더 싸요"처럼 다른 결제로 유도하는 것도 막혀 있습니다(미국 스토어 예외 제외).</p>
+      <div class="check"><b>저장소에서 확인</b>결제 SDK(토스페이먼츠·포트원·Stripe 등)가 파는 대상이 디지털인지 실물인지, <code>react-native-iap</code>·<code>react-native-purchases</code> 같은 인앱 결제 의존성, 외부 결제 안내 문구.</div>
+      <h2><span class="n">09</span>다른 사람의 글이 보이면 — 신고·차단</h2>
+      <p>게시글·댓글·리뷰·채팅·프로필 사진처럼 <b>다른 사용자에게 보이는 콘텐츠</b>가 있으면, 신고 기능, 사용자 차단, 부적절한 콘텐츠를 걸러내는 장치, 연락처가 필요합니다(<b>1.2</b>). 2026년 2월부터 무작위·익명 채팅도 여기에 들어갑니다. Google Play 도 신고·차단과 이용약관 동의를 요구합니다.</p>
+      <div class="check"><b>저장소에서 확인</b>사용자가 쓴 데이터가 다른 사람 화면에 보이는지 먼저, 그다음 <code>report</code>·<code>block</code>·<code>신고</code>·<code>차단</code> 화면과 서버 경로, 가입 때 약관 동의.</div>
+      <h2><span class="n">10</span>Google Play — 새 개인 계정과 빌드 요건</h2>
+      <p>2023년 11월 13일 이후 만든 <b>개인 개발자 계정</b>은 비공개 테스트에 <b>12명 이상이 14일 연속</b> 참여한 뒤에야 프로덕션 출시를 신청할 수 있습니다. 중간에 빠지면 14일이 다시 셉니다. 또 2026년 8월 31일부터 새 앱과 업데이트는 <b>Android 16(API 36) 이상</b>을 대상으로 빌드해야 하고(연장 신청 시 11월 1일), 새 앱은 AAB 로 올립니다.</p>
+      <div class="check"><b>저장소에서 확인</b><code>build.gradle</code> 의 <code>targetSdk</code> 또는 <code>expo-build-properties</code> 의 <code>targetSdkVersion</code>, EAS 프로필이 APK 가 아니라 AAB 인지. 테스터 모집은 저장소 밖 일이라 일정에 먼저 넣습니다.</div>
+      <h2><span class="n">11</span>AI 로 개인정보를 보내면</h2>
+      <p>2025년 11월 개정으로, 사용자 개인정보를 제3자 — <b>생성형 AI 포함</b> — 에 보낼 때는 무엇을 누구에게 보내는지 앱 안에서 알리고 명시적으로 동의를 받아야 합니다(<b>5.1.2(i)</b>).</p>
+      <div class="check"><b>저장소에서 확인</b>LLM API 호출 코드와 보내는 필드, 그 앞의 고지·동의 화면, 처리방침의 제3자 제공·국외 이전.</div>
+      <h2><span class="n">12</span>iOS 빌드 요건</h2>
+      <p>2026년 4월 28일부터 App Store Connect 에 올리는 빌드는 <b>Xcode 26 · iOS 26 SDK</b> 로 만들어야 하고, 9월 9일부터는 배포 대상이 iOS 13 이상이어야 합니다. 오래된 Expo·React Native·Flutter 버전에 묶여 있으면 업로드부터 막힙니다.</p>
+      <div class="check"><b>저장소에서 확인</b>Expo SDK·React Native·Flutter 버전, <code>ios.deploymentTarget</code>, EAS 빌드 이미지.</div>
+      <section class="cta">
+        <h2>제출 전에 한 번에 확인하고 싶다면</h2>
+        <p>vamuri 는 저장소를 읽어 위 내용을 포함한 앱스토어 심사 17개 질문에 근거(파일·줄)를 붙여 답하고, App Store · Google Play 각각 "준비됨 / 확인할 것 / 반려 가능성 높음"으로 알려 드립니다. 규정이 바뀌면 질문도 바뀝니다. 지금은 무료 기간입니다.</p>
+        <p><a class="btn" href="https://vamuri.vercel.app/login">무료로 진단 시작</a></p>
+      </section>
+      <p class="meta" style="margin-top:36px">출처 — <a href="https://developer.apple.com/app-store/review/guidelines/">App Review Guidelines</a> · <a href="https://developer.apple.com/support/offering-account-deletion-in-your-app/">Offering account deletion in your app</a> · <a href="https://developer.apple.com/news/upcoming-requirements/">Upcoming Requirements</a> · <a href="https://support.google.com/googleplay/android-developer/answer/14151465">Play 새 개인 계정 테스트 요건</a> · <a href="https://support.google.com/googleplay/android-developer/answer/11926878">Target API level</a> · <a href="https://support.google.com/googleplay/android-developer/answer/13327111">Play 계정 삭제 요건</a> · <a href="https://support.google.com/googleplay/android-developer/answer/9876937">Play 사용자 생성 콘텐츠</a>. 확인일 2026-10-26. 규정은 자주 바뀌니 제출 전에 원문을 한 번 더 확인하세요. 참고 자료이며 법률·심사 결과를 보장하지 않습니다.</p>
+    </article>
+  </main>
+  <footer>vamuri — 운영 안계훈(개인 운영) · 문의 gayhoon@naver.com · <a href="../">처음으로</a></footer>
+</body>
+</html>
