@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>vamuri — 바이브코딩으로 만든 서비스, 출시까지</title>
-  <meta name="description" content="결제·인증·법규·배포 — 바이브코딩으로 만든 웹서비스가 코드 바깥에서 막히는 것을 출시 전에 79항목으로 찾아 같이 끝냅니다. GitHub 로그인 한 번, 저장소 주소 하나. 지금은 무료 기간.">
+  <meta name="description" content="결제·인증·법규·배포·앱스토어 심사 — 바이브코딩으로 만든 웹서비스와 앱이 코드 바깥에서 막히는 것을 출시 전에 96개의 질문으로 찾아 같이 끝냅니다. GitHub 로그인 한 번, 저장소 주소 하나. 지금은 무료 기간.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://gayhoon.github.io/vamuri-site/">
   <meta property="og:type" content="website">
@@ -298,6 +298,46 @@
     }
     @media (max-width: 420px) { .g5, .g4 { grid-template-columns: 1fr; } .acts .btn { width: 100%; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } .belt { animation: none; } .wall .row { overflow-x: auto; } .wall-stop { display: none; } }
+
+    /* ── 노하우 · 리스크 없이 (10-26) — 말은 적게, 글자는 크게. 스크롤에 맞춰 96개의 질문이 켜진다 ── */
+    .craft, .calm { position: relative; padding: clamp(110px, 16vw, 200px) 0 clamp(90px, 12vw, 150px); text-align: center; overflow: clip; }
+    .craft::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(50% 45% at 50% 32%, rgba(124,58,237,.22), transparent 70%); }
+    .kicker { display: inline-block; font-family: var(--mono); font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 26px; }
+    .statement { position: relative; font-weight: 800; font-size: clamp(2.3rem, 6.4vw, 5.4rem); line-height: 1.06; letter-spacing: -.055em; margin: 0 auto 28px; max-width: 14em; color: var(--fg); }
+    .statement .soft { color: transparent; background: linear-gradient(180deg, #f4f5fb 10%, #9a8cc8 120%); -webkit-background-clip: text; background-clip: text; }
+    .quiet { position: relative; max-width: 34em; margin: 0 auto; font-size: clamp(1.02rem, 1.6vw, 1.22rem); line-height: 1.75; color: var(--fg-2); }
+    .questions { position: relative; display: flex; align-items: flex-end; gap: 3px; height: 92px; max-width: 980px; margin: 70px auto 0; padding: 0 24px; }
+    .questions i { flex: 1 1 0; height: 34%; background: #1d2a52; }
+    .questions i:nth-child(5n+2) { height: 58%; } .questions i:nth-child(7n+3) { height: 80%; } .questions i:nth-child(3n) { height: 46%; } .questions i:nth-child(11n+1) { height: 100%; }
+    .ledger { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 1080px; margin: 0 auto; padding: 0 24px; border-top: 1px solid var(--hair-2); text-align: left; }
+    .ledger > div { padding: 34px 28px 10px 0; }
+    .ledger > div + div { padding-left: 28px; border-left: 1px solid var(--hair); }
+    .ledger b { display: block; font-family: var(--display); font-weight: 300; font-size: clamp(2.6rem, 5.2vw, 4.4rem); line-height: 1; letter-spacing: -.04em; color: var(--fg); margin-bottom: 18px; }
+    .ledger b.date { font-size: clamp(2rem, 3.6vw, 3.1rem); padding-top: .32em; }
+    .ledger b small { font-size: .42em; font-weight: 500; color: var(--accent); letter-spacing: 0; margin-left: 4px; }
+    .ledger h3 { font-size: 1.04rem; font-weight: 700; margin: 0 0 6px; color: var(--fg); }
+    .ledger p { margin: 0; font-size: .92rem; line-height: 1.7; color: var(--fg-2); }
+    .calm { border-top: 1px solid var(--hair); }
+    .befores { list-style: none; max-width: 1080px; margin: 70px auto 0; padding: 0 24px; text-align: left; }
+    .befores li { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 32px; align-items: baseline; padding: 30px 0; border-top: 1px solid var(--hair-2); }
+    .befores li:last-child { border-bottom: 1px solid var(--hair-2); }
+    .befores h3 { font-weight: 800; font-size: clamp(1.4rem, 2.8vw, 2.1rem); letter-spacing: -.04em; line-height: 1.2; margin: 0; color: var(--fg); }
+    .befores h3 span { color: var(--accent); }
+    .befores p { margin: 0; color: var(--fg-2); font-size: 1rem; line-height: 1.75; }
+    .befores p b { color: var(--fg); font-weight: 600; }
+    @supports (animation-timeline: view()) {
+      @media (prefers-reduced-motion: no-preference) {
+        .reveal { animation: reveal linear both; animation-timeline: view(); animation-range: entry 5% cover 32%; }
+        .questions i { animation: q-on linear both; animation-timeline: view(); animation-range: entry calc(var(--t) * 60% + 10%) cover calc(var(--t) * 50% + 30%); }
+      }
+    }
+    @keyframes reveal { from { opacity: 0; transform: translateY(36px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+    @keyframes q-on { from { background: #1d2a52; } to { background: linear-gradient(180deg, #d9c8ff, #7c3aed); box-shadow: 0 0 10px rgba(182,140,255,.35); } }
+    @media (max-width: 860px) {
+      .ledger { grid-template-columns: 1fr; } .ledger > div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--hair); }
+      .befores li { grid-template-columns: 1fr; gap: 10px; }
+      .questions { height: 64px; gap: 2px; }
+    }
   </style>
 </head>
 <body>
@@ -309,7 +349,7 @@
     <div class="wrap">
       <a class="brand" href="#top" aria-label="vamuri 처음으로"><span class="mark" aria-hidden="true">v</span>vamuri</a>
       <nav class="menu" aria-label="주요">
-        <a href="#stuck">어디서 막히나</a><a href="#what">무엇을 보나</a><a href="#inside">받는 것</a><a href="#how">어떻게</a><a href="#price">가격</a><a href="#faq">FAQ</a><a href="guides/launch-checklist.html">가이드</a>
+        <a href="#craft">노하우</a><a href="#stuck">어디서 막히나</a><a href="#what">무엇을 보나</a><a href="#inside">받는 것</a><a href="#how">어떻게</a><a href="#price">가격</a><a href="#faq">FAQ</a><a href="guides/launch-checklist.html">가이드</a>
       </nav>
       <div class="right">
         <a class="btn sm login" href="https://vamuri.vercel.app/login">로그인</a>
@@ -321,9 +361,9 @@
   <main id="main">
     <section class="hero" id="top">
       <div class="wrap">
-        <div class="eyebrow"><i aria-hidden="true"></i>바이브코딩으로 만든 웹서비스 · 출시 전 진단</div>
+        <div class="eyebrow"><i aria-hidden="true"></i>바이브코딩으로 만든 웹서비스 · 앱 · 출시 전 진단</div>
         <h1>코드는 다 짰는데,<br><span class="n">출시</span>가 안 됩니다.</h1>
-        <p class="lede">결제사 심사, 카카오 로그인, 약관, 배포, 요금 폭탄 — <b>코드 바깥</b>에서 막히는 것을 출시 전에 찾아 같이 끝냅니다. 저장소는 읽기만 하고, 출시를 막는 것부터 번호와 파일·줄로 돌려드립니다.</p>
+        <p class="lede">결제사 심사, 앱스토어 반려, 약관, 배포, 요금 폭탄 — <b>코드 바깥</b>에서 막히는 것을 출시 전에 찾아 같이 끝냅니다. 저장소는 읽기만 하고, 출시를 막는 것부터 번호와 파일·줄로 돌려드립니다.</p>
         <div class="acts">
           <a class="btn primary lg" href="https://vamuri.vercel.app/login"><svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub 로 무료 진단 시작</a>
           <a class="btn white lg" href="#inside">예시 리포트 보기</a>
@@ -372,6 +412,34 @@
           </div></div>
         </div>
       </div>
+    </section>
+
+
+    <section class="craft" id="craft" aria-labelledby="craft-h">
+      <div class="wrap">
+        <span class="kicker reveal">노하우</span>
+        <h2 class="statement reveal" id="craft-h">출시를 막는 자리는<br><span class="soft">이미 정해져 있습니다.</span></h2>
+        <p class="quiet reveal">결제 심사에서, 앱스토어 반려에서, 약관 한 줄에서. 서비스는 달라도 같은 자리에서 같은 이유로 멈춥니다. 저희는 그 자리를 하나씩 모아 질문으로 만들었습니다.</p>
+      </div>
+      <div class="questions" aria-hidden="true"><i style="--t:0.000"></i><i style="--t:0.010"></i><i style="--t:0.021"></i><i style="--t:0.031"></i><i style="--t:0.042"></i><i style="--t:0.052"></i><i style="--t:0.062"></i><i style="--t:0.073"></i><i style="--t:0.083"></i><i style="--t:0.094"></i><i style="--t:0.104"></i><i style="--t:0.115"></i><i style="--t:0.125"></i><i style="--t:0.135"></i><i style="--t:0.146"></i><i style="--t:0.156"></i><i style="--t:0.167"></i><i style="--t:0.177"></i><i style="--t:0.188"></i><i style="--t:0.198"></i><i style="--t:0.208"></i><i style="--t:0.219"></i><i style="--t:0.229"></i><i style="--t:0.240"></i><i style="--t:0.250"></i><i style="--t:0.260"></i><i style="--t:0.271"></i><i style="--t:0.281"></i><i style="--t:0.292"></i><i style="--t:0.302"></i><i style="--t:0.312"></i><i style="--t:0.323"></i><i style="--t:0.333"></i><i style="--t:0.344"></i><i style="--t:0.354"></i><i style="--t:0.365"></i><i style="--t:0.375"></i><i style="--t:0.385"></i><i style="--t:0.396"></i><i style="--t:0.406"></i><i style="--t:0.417"></i><i style="--t:0.427"></i><i style="--t:0.438"></i><i style="--t:0.448"></i><i style="--t:0.458"></i><i style="--t:0.469"></i><i style="--t:0.479"></i><i style="--t:0.490"></i><i style="--t:0.500"></i><i style="--t:0.510"></i><i style="--t:0.521"></i><i style="--t:0.531"></i><i style="--t:0.542"></i><i style="--t:0.552"></i><i style="--t:0.562"></i><i style="--t:0.573"></i><i style="--t:0.583"></i><i style="--t:0.594"></i><i style="--t:0.604"></i><i style="--t:0.615"></i><i style="--t:0.625"></i><i style="--t:0.635"></i><i style="--t:0.646"></i><i style="--t:0.656"></i><i style="--t:0.667"></i><i style="--t:0.677"></i><i style="--t:0.688"></i><i style="--t:0.698"></i><i style="--t:0.708"></i><i style="--t:0.719"></i><i style="--t:0.729"></i><i style="--t:0.740"></i><i style="--t:0.750"></i><i style="--t:0.760"></i><i style="--t:0.771"></i><i style="--t:0.781"></i><i style="--t:0.792"></i><i style="--t:0.802"></i><i style="--t:0.812"></i><i style="--t:0.823"></i><i style="--t:0.833"></i><i style="--t:0.844"></i><i style="--t:0.854"></i><i style="--t:0.865"></i><i style="--t:0.875"></i><i style="--t:0.885"></i><i style="--t:0.896"></i><i style="--t:0.906"></i><i style="--t:0.917"></i><i style="--t:0.927"></i><i style="--t:0.938"></i><i style="--t:0.948"></i><i style="--t:0.958"></i><i style="--t:0.969"></i><i style="--t:0.979"></i><i style="--t:0.990"></i></div>
+      <div class="ledger">
+        <div class="reveal"><b>96</b><h3>출시 전에 던지는 질문</h3><p>웹서비스는 79개. 앱이라면 App Store · Google Play 심사 17개를 더 봅니다. 저장소를 읽고, 하나하나에 근거를 답니다.</p></div>
+        <div class="reveal"><b class="date">2026.10.16</b><h3>지금 기준으로 삼는 심사 규정</h3><p>App Store 심사 가이드라인의 최신 판입니다. Google Play 의 새 기준까지 함께. 규정이 바뀌면 질문도 바뀝니다.</p></div>
+        <div class="reveal"><b>0</b><h3>저장소에 남기는 흔적</h3><p>읽기만 합니다. 브랜치도, 커밋도 만들지 않고, 리포트를 드린 뒤 복제본은 지웁니다.</p></div>
+      </div>
+    </section>
+
+    <section class="calm" id="calm" aria-labelledby="calm-h">
+      <div class="wrap">
+        <span class="kicker reveal">리스크 없이</span>
+        <h2 class="statement reveal" id="calm-h">출시는 한 번입니다.</h2>
+        <p class="quiet reveal">첫 손님, 첫 결제, 첫 심사. 처음은 다시 오지 않으니까 — 문을 열기 전에, 막힐 곳을 먼저 열어 둡니다.</p>
+      </div>
+      <ul class="befores">
+        <li class="reveal"><h3><span>반려 메일</span>이 오기 전에.</h3><p>카카오 로그인만 있는 앱은 애플 심사에서 돌아옵니다. 심사자가 로그인하지 못해도, 앱 안에서 탈퇴할 수 없어도 그렇습니다. 이런 규칙 <b>17개</b>를 제출 전에 먼저 봅니다.</p></li>
+        <li class="reveal"><h3><span>환불 분쟁</span>이 생기기 전에.</h3><p>약관과 결제 화면과 코드가 <b>같은 말</b>을 하는지 대조합니다. 셋이 다르면, 분쟁에서 지는 쪽은 서비스입니다.</p></li>
+        <li class="reveal"><h3><span>새벽 장애 알림</span> 전에.</h3><p>고장 나면 손님보다 먼저 알 수 있는지, 지운 데이터를 <b>되살릴 수 있는지</b> 확인합니다. 출시 다음 날이 조용하도록.</p></li>
+      </ul>
     </section>
 
     <section class="sec" id="tour" aria-labelledby="tour-h">
