@@ -77,6 +77,12 @@
     .btn.primary:active, .btn.white:active { transform: translateY(2px); }
     .btn.glass { background: var(--accent-soft); color: var(--accent); border: 2px solid rgba(0,0,0,.12); box-shadow: none; backdrop-filter: blur(8px); height: 44px; }
     .btn.lg { height: 52px; padding: 0 22px; font-size: 1.02rem; }
+    .qcheck { max-width: 620px; margin-top: 30px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.08); }
+    .qcheck label { display: block; margin-bottom: 10px; color: #aab0d0; font-size: .95rem; } .qcheck label b { color: #fff; margin-right: 4px; }
+    .qcheck .qrow { display: flex; gap: 8px; }
+    .qcheck input { flex: 1 1 auto; min-width: 0; height: 52px; padding: 0 16px; border: 1px solid rgba(255,255,255,.16); background: rgba(10,16,40,.7); color: #fff; font: inherit; font-size: 1rem; border-radius: 0; }
+    .qcheck input:focus { outline: 2px solid #8b5cf6; outline-offset: 1px; }
+    @media (max-width: 560px) { .qcheck .qrow { flex-direction: column; } }
     .btn.sm { height: 34px; padding: 0 12px; font-size: .86rem; }
     .btn svg { flex: none; }
 
@@ -412,6 +418,10 @@
           <a class="btn white lg" href="#tour">예시 리포트 보기</a>
         </div>
         <div class="micro"><span>가입 절차 없이 GitHub 로그인</span><span>저장소 주소 하나</span><span>분석 30~40분 · 검토 1영업일</span><span>복제본은 전달 뒤 삭제</span></div>
+        <form class="qcheck" method="get" action="https://vamuri.vercel.app/check">
+          <label for="qc-url"><b>저장소는 아직 좀…</b> 주소만 넣고 1분 점검부터 해 보세요. 로그인 없이요.</label>
+          <div class="qrow"><input id="qc-url" name="url" type="text" inputmode="url" autocomplete="url" spellcheck="false" required maxlength="300" placeholder="myservice.com"><button class="btn lg" type="submit">1분 점검</button></div>
+        </form>
 
       </div>
       <div class="wallbox">
