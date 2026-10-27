@@ -13,6 +13,7 @@ vamuri 는 코드가 다 짜인 뒤에 남는 "코드 밖" 문제를 본다: 결
 
 - [무료 진단 시작](https://vamuri.vercel.app/login): GitHub 로 로그인하고 저장소를 고른다
 - [1분 점검](https://vamuri.vercel.app/check): 로그인 없이 서비스 주소만 넣으면 HTTPS·보안 헤더·처리방침/약관 링크·사업자 정보·검색/공유 미리보기를 바로 본다
+- [샘플 리포트](https://vamuri.vercel.app/sample): 가상 앱(원데이 클래스 수강권)을 실제로 진단한 결과 — 로그인 없이 볼 수 있다
 - [요금](https://vamuri.vercel.app/pricing)
 - [소개](https://gayhoon.github.io/vamuri-site/)
 
