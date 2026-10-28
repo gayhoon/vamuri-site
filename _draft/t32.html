@@ -1,0 +1,37 @@
+<p style="text-align:center"><img src="https://gayhoon.github.io/vamuri-site/img/blog/t32-cover.jpg" alt="보안 헤더 5개, 바이브코딩 기본값엔 없어요" width="1200"></p>
+<p>Next.js·Vite 로 만든 서비스를 Vercel 이나 Netlify 에 올리면 HTTPS 는 알아서 붙어요. 그런데 <b>보안 헤더</b>는 대부분 비어 있어요. 응답에 한 줄씩 붙이는 건데, 프레임워크 기본값에 안 들어 있거든요.</p>
+<h2>다섯 줄과 하는 일</h2>
+<ul>
+<li><b>Strict-Transport-Security</b> — 브라우저가 이 사이트는 늘 https 로만 열게 해요. <code>max-age=31536000; includeSubDomains</code></li>
+<li><b>X-Content-Type-Options: nosniff</b> — 올라온 파일을 브라우저가 멋대로 스크립트로 해석하지 않게</li>
+<li><b>X-Frame-Options: DENY</b> (또는 CSP <code>frame-ancestors 'none'</code>) — 다른 사이트가 내 화면을 투명하게 끼워 넣고 버튼을 누르게 하는 클릭재킹 방지</li>
+<li><b>Referrer-Policy: strict-origin-when-cross-origin</b> — 다른 사이트로 넘어갈 때 주소 전체(토큰이 든 쿼리까지)가 넘어가지 않게</li>
+<li><b>Content-Security-Policy</b> — 어디서 온 스크립트만 실행할지 정해요. 스크립트 삽입(XSS)이 생겨도 피해를 줄이는 마지막 방어선</li>
+</ul>
+<h2>넣는 자리</h2>
+<ul>
+<li><b>Next.js</b> — <code>next.config.js</code> 의 <code>headers()</code>, 또는 미들웨어에서 응답에 붙이기</li>
+<li><b>Vercel</b> — <code>vercel.json</code> 의 <code>headers</code></li>
+<li><b>Netlify</b> — <code>_headers</code> 파일 또는 <code>netlify.toml</code></li>
+<li><b>Cloudflare</b> — Transform Rules 의 응답 헤더</li>
+</ul>
+<h2>'반쯤 넣은' 함정</h2>
+<p>CSP 가 있다고 다 같은 CSP 가 아니에요. <code>frame-ancestors</code> 한 줄만 있는 CSP 는 화면 끼워 넣기만 막고 <b>스크립트는 하나도 안 막아요</b>. 헤더 검사 도구에서 "CSP 있음" 으로 나와도 <code>script-src</code> 나 <code>default-src</code> 가 들어 있는지 한 번 보세요.</p>
+<p>CSP 를 처음 걸 땐 바로 켜지 말고 <code>Content-Security-Policy-Report-Only</code> 로 며칠 걸어 두세요. 결제창·분석 도구·폰트처럼 바깥에서 불러오는 게 깨지는지 콘솔에서 먼저 보고, 허용 목록을 채운 뒤 켜면 돼요.</p>
+<h2>확인하는 법</h2>
+<p>배포한 주소로 <code>curl -sI https://내주소</code> 를 해 보거나, 브라우저 개발자 도구 Network 탭에서 첫 요청의 응답 헤더를 보세요. 로컬에선 붙고 운영에선 빠지는 경우도 있어서 꼭 배포 주소로요.</p>
+<h2>보안 헤더 체크리스트</h2>
+<p style="text-align:center"><img src="https://gayhoon.github.io/vamuri-site/img/blog/t32-check.jpg" alt="보안 헤더 체크리스트" width="1200"></p>
+<ul>
+<li>Strict-Transport-Security 가 있다 (max-age 1년)</li>
+<li>X-Content-Type-Options: nosniff</li>
+<li>X-Frame-Options 또는 CSP frame-ancestors</li>
+<li>Referrer-Policy: strict-origin-when-cross-origin</li>
+<li>CSP 에 script-src 나 default-src 가 들어 있다</li>
+<li>배포한 주소로 실제 응답 헤더를 확인했다</li>
+</ul>
+<p>주소만 넣으면 이 헤더들을 한 번에 보여 주는 <a href="https://vamuri.vercel.app/check">1분 점검</a>도 있어요.</p>
+<h2>마치며</h2>
+<p>다섯 줄이라 10분이면 넣어요. 다만 CSP 는 서두르면 결제창이 안 뜨는 식으로 서비스가 깨지니까, 나머지 넷을 먼저 넣고 CSP 는 보고 모드로 천천히 가세요.</p>
+<p><small>참고: MDN HTTP 헤더 문서(Strict-Transport-Security · Content-Security-Policy · X-Frame-Options · Referrer-Policy), Next.js headers 설정 문서. 2026년 10월 기준.</small></p>
+<p>저는 이런 출시 직전 빈틈을 미리 찾아 주는 <a href="https://gayhoon.github.io/vamuri-site/">vamuri</a>를 만들고 있습니다. 주소만 넣고 해 보는 <a href="https://vamuri.vercel.app/check">1분 점검</a>이나, 가상 앱으로 돌린 <a href="https://vamuri.vercel.app/sample">샘플 리포트</a>도 있어요. 이런 정리 글을 메일로 받아 보시려면 <a href="https://vamuri.vercel.app/subscribe?src=tistory">여기서 구독</a>하실 수 있어요.</p>

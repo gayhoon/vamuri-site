@@ -1,0 +1,33 @@
+<p style="text-align:center"><img src="https://gayhoon.github.io/vamuri-site/img/blog/t26-cover.jpg" alt="개발용 DB 와 운영 DB, 하나로 쓰고 계신가요" width="1200"></p>
+<p>바이브코딩으로 만들다 보면 Supabase·Firebase 프로젝트 하나로 끝까지 가는 경우가 많아요. 만들 때 쓰던 DB 가 그대로 출시 DB 가 되는 거죠. 그러면 이런 일이 생겨요.</p>
+<ul>
+<li>테스트로 넣은 "ㅁㄴㅇㄹ" 상품, 1원짜리 주문이 손님 화면에 보여요.</li>
+<li>새 기능을 시험하다 테이블 구조를 바꿨는데, 운영 중인 앱이 그 순간 깨져요.</li>
+<li>"테스트 데이터 정리" 하려고 지웠는데 진짜 손님 데이터까지 같이 지워져요.</li>
+</ul>
+<h2>나누는 법 — 생각보다 간단해요</h2>
+<ul>
+<li><b>프로젝트를 두 개</b> 만들어요. 개발용, 운영용. 무료 요금제로도 보통 두 개는 돼요.</li>
+<li><b>키를 나눠요</b>. 내 컴퓨터의 <code>.env.local</code> 엔 개발용 키, Vercel 같은 배포 환경의 운영(Production) 환경변수엔 운영용 키.</li>
+<li><b>구조는 마이그레이션 파일로</b>. 대시보드에서 손으로 테이블을 고치지 말고, SQL 파일로 남겨서 개발 → 운영 순서로 똑같이 적용해요.</li>
+</ul>
+<h2>같이 챙길 것</h2>
+<ul>
+<li><b>운영 DB 백업</b> — 유료 요금제의 자동 백업이 켜져 있는지, 한 번은 복구해 보세요.</li>
+<li><b>운영 데이터 복사 금지</b> — 개발하기 편하자고 손님 데이터를 개발용 DB 로 통째로 복사하면 개인정보가 개발 환경으로 새요. 필요하면 가짜 데이터를 만들어 쓰세요.</li>
+<li><b>미리보기 배포</b> — PR 마다 생기는 미리보기 주소가 운영 DB 에 붙어 있지 않은지도 확인하세요.</li>
+</ul>
+<h2>DB 나누기 체크리스트</h2>
+<p style="text-align:center"><img src="https://gayhoon.github.io/vamuri-site/img/blog/t26-check.jpg" alt="DB 나누기 체크리스트" width="1200"></p>
+<ul>
+<li>운영용 DB 를 따로 만들었다</li>
+<li>운영 키는 운영 배포 환경변수에만 있다</li>
+<li>내 컴퓨터는 개발용 DB 에 붙어 있다</li>
+<li>구조 변경은 마이그레이션으로 두 곳에 똑같이</li>
+<li>운영 DB 백업이 켜져 있다</li>
+<li>운영 데이터를 개발용으로 그대로 복사하지 않는다</li>
+</ul>
+<h2>마치며</h2>
+<p>손님이 한 명이라도 생기기 전이 나누기 제일 쉬운 때예요. 그다음부턴 데이터를 옮기는 일이 되거든요.</p>
+<p><small>참고: Supabase Local Development·Migrations 문서, Vercel 환경변수(Production·Preview) 문서. 2026년 10월 기준.</small></p>
+<p>저는 이런 출시 직전 빈틈을 미리 찾아 주는 <a href="https://gayhoon.github.io/vamuri-site/">vamuri</a>를 만들고 있습니다. 주소만 넣고 해 보는 <a href="https://vamuri.vercel.app/check">1분 점검</a>이나, 가상 앱으로 돌린 <a href="https://vamuri.vercel.app/sample">샘플 리포트</a>도 있어요. 이런 정리 글을 메일로 받아 보시려면 <a href="https://vamuri.vercel.app/subscribe?src=tistory">여기서 구독</a>하실 수 있어요.</p>

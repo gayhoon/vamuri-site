@@ -1,0 +1,29 @@
+<p style="text-align:center"><img src="https://gayhoon.github.io/vamuri-site/img/blog/t30-cover.jpg" alt="출시 전날 10분 체크" width="1200"></p>
+<p>출시 전날 밤은 기능 하나 더 붙이고 싶은 마음이 제일 큰 때예요. 그런데 그날 10분은 기능 말고 아래 다섯 가지에 쓰는 게 이득이에요. 다 "터지면 밤에 깨는" 것들이에요.</p>
+<h2>1. 운영 키</h2>
+<p>배포 환경의 운영 환경변수를 한 번 열어 보세요. 결제 키가 <code>test_</code> 로 시작하면 손님 결제가 테스트로 돌고 돈은 안 들어와요. 반대로 개발용 <code>.env</code> 에 운영 키가 있으면 내 테스트가 진짜 결제가 돼요.</p>
+<h2>2. 로그</h2>
+<p>디버깅하느라 넣은 <code>console.log(payment)</code> 같은 줄이 남아 있지 않은지 찾아보세요. 결제 응답·토큰·이메일이 통째로 로그에 쌓이면 그 로그가 곧 유출 위험이에요.</p>
+<h2>3. 알림</h2>
+<p>에러가 나면 누가 아나요? Sentry 같은 에러 추적이든 디스코드·슬랙 웹훅이든, <b>내 폰으로 오는 알림 하나</b>만 있으면 돼요. 손님 문의로 장애를 알게 되는 건 이미 늦은 거예요.</p>
+<h2>4. 백업</h2>
+<p>DB 자동 백업이 켜져 있는지, 그리고 어제 날짜 백업이 실제로 있는지 대시보드에서 확인하세요. 켜 놨다고 생각했는데 무료 요금제라 없는 경우가 있어요.</p>
+<h2>5. 요금 알림</h2>
+<p>호스팅·DB·문자·AI API 에 사용량 알림을 걸어 두세요. 출시 날 사람이 몰리는 건 좋은 일인데, 그게 청구서로 먼저 오면 곤란하니까요.</p>
+<h2>덤 — 법적으로 꼭 열려야 하는 링크</h2>
+<p>처리방침·약관·사업자 정보 링크가 진짜로 열리는지 눌러 보세요. 만들 때 <code>#</code> 로 걸어 두고 잊어버리기 쉬운 자리예요.</p>
+<h2>10분 체크리스트</h2>
+<p style="text-align:center"><img src="https://gayhoon.github.io/vamuri-site/img/blog/t30-check.jpg" alt="10분 체크리스트" width="1200"></p>
+<ul>
+<li>운영 환경변수에 테스트 키가 남아 있지 않다</li>
+<li>로그에 결제 응답·토큰·개인정보가 통째로 안 찍힌다</li>
+<li>에러가 나면 내 폰으로 알림이 온다</li>
+<li>DB 백업이 켜져 있고 어제 날짜 백업이 있다</li>
+<li>요금 알림을 걸었다</li>
+<li>처리방침·약관·사업자 정보 링크가 열린다</li>
+</ul>
+<p>마지막 줄은 <a href="https://vamuri.vercel.app/check">1분 점검</a>에 주소만 넣어도 확인돼요.</p>
+<h2>마치며</h2>
+<p>출시 첫날 밤에 깨지 않는 것도 실력이에요. 10분 쓰고 푹 주무세요. 내일 바빠요 ㅎㅎ</p>
+<p><small>2026년 10월 기준. 각 서비스의 메뉴 이름은 바뀔 수 있어요.</small></p>
+<p>저는 이런 출시 직전 빈틈을 미리 찾아 주는 <a href="https://gayhoon.github.io/vamuri-site/">vamuri</a>를 만들고 있습니다. 주소만 넣고 해 보는 <a href="https://vamuri.vercel.app/check">1분 점검</a>이나, 가상 앱으로 돌린 <a href="https://vamuri.vercel.app/sample">샘플 리포트</a>도 있어요. 이런 정리 글을 메일로 받아 보시려면 <a href="https://vamuri.vercel.app/subscribe?src=tistory">여기서 구독</a>하실 수 있어요.</p>
